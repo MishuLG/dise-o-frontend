@@ -20,182 +20,187 @@ import {
   CFormTextarea,
   CFormSelect,
 } from '@coreui/react';
+import API_URL from '../path/to/config'; // Asegúrate de usar la ruta correcta
 
-const Attendance = () => {
-  const [attendances, setAttendances] = useState([]);
+const Asistencia = () => {
+  const [asistencias, setAsistencias] = useState([]);
   const [formData, setFormData] = useState({
-    id_student: '',
-    id_section: '',
-    attendance_date: '',
-    status: '',
-    remarks: '',
+    id_estudiante: '',
+    id_seccion: '',
+    fecha_asistencia: '',
+    estado: '',
+    observaciones: '',
   });
-  const [showModal, setShowModal] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [selectedAttendance, setSelectedAttendance] = useState(null);
-  const [filter, setFilter] = useState({ id_student: '', attendance_date: '' });
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [asistenciaSeleccionada, setAsistenciaSeleccionada] = useState(null);
+  const [filtro, setFiltro] = useState({ id_estudiante: '', fecha_asistencia: '' });
 
-  const API_URL = 'http://localhost:4000/api/attendance';
+  // Usa API_URL desde config.js
+  const asistenciaUrl = `${API_URL}/asistencia`;
 
   useEffect(() => {
-    fetchAttendances();
+    obtenerAsistencias();
   }, []);
 
-  const fetchAttendances = async () => {
+  const obtenerAsistencias = async () => {
     try {
-      const response = await fetch(API_URL);
-      const data = await response.json();
-      setAttendances(data);
+      const respuesta = await fetch(asistenciaUrl);
+      const datos = await respuesta.json();
+      setAsistencias(datos);
     } catch (error) {
-      console.error('Error fetching attendance records:', error);
+      console.error('Error al obtener los registros de asistencia:', error);
+      alert('Ocurrió un error al obtener los registros de asistencia. Por favor, inténtalo de nuevo.');
     }
   };
 
-  const handleSaveAttendance = async () => {
+  const guardarAsistencia = async () => {
     try {
-      const method = editMode ? 'PUT' : 'POST';
-      const url = editMode ? `${API_URL}/${selectedAttendance.id_attendance}` : API_URL;
+      const metodo = modoEdicion ? 'PUT' : 'POST';
+      const url = modoEdicion ? `${asistenciaUrl}/${asistenciaSeleccionada.id_asistencia}` : asistenciaUrl;
 
-      const response = await fetch(url, {
-        method: method,
+      const respuesta = await fetch(url, {
+        method: metodo,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      if (!respuesta.ok) {
+        throw new Error('Error en la respuesta del servidor');
       }
 
-      fetchAttendances();
-      setShowModal(false);
-      resetForm();
+      obtenerAsistencias();
+      setMostrarModal(false);
+      reiniciarFormulario();
     } catch (error) {
-      console.error('Error saving attendance record:', error);
+      console.error('Error al guardar el registro de asistencia:', error);
+      alert('Ocurrió un error al guardar el registro de asistencia. Por favor, inténtalo de nuevo.');
     }
   };
 
-  const handleEditAttendance = (attendance) => {
-    setSelectedAttendance(attendance);
+  const editarAsistencia = (asistencia) => {
+    setAsistenciaSeleccionada(asistencia);
     setFormData({
-      id_student: attendance.id_student,
-      id_section: attendance.id_section,
-      attendance_date: attendance.attendance_date,
-      status: attendance.status,
-      remarks: attendance.remarks,
+      id_estudiante: asistencia.id_estudiante,
+      id_seccion: asistencia.id_seccion,
+      fecha_asistencia: asistencia.fecha_asistencia,
+      estado: asistencia.estado,
+      observaciones: asistencia.observaciones,
     });
-    setEditMode(true);
-    setShowModal(true);
+    setModoEdicion(true);
+    setMostrarModal(true);
   };
 
-  const handleDeleteAttendance = async (id) => {
+  const eliminarAsistencia = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const respuesta = await fetch(`${asistenciaUrl}/${id}`, {
         method: 'DELETE',
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      if (!respuesta.ok) {
+        throw new Error('Error en la respuesta del servidor');
       }
 
-      fetchAttendances();
+      obtenerAsistencias();
     } catch (error) {
-      console.error('Error deleting attendance record:', error);
+      console.error('Error al eliminar el registro de asistencia:', error);
+      alert('Ocurrió un error al eliminar el registro de asistencia. Por favor, inténtalo de nuevo.');
     }
   };
 
-  const handleFilterChange = (e) => {
-    setFilter({ ...filter, [e.target.name]: e.target.value });
+  const cambiarFiltro = (e) => {
+    setFiltro({ ...filtro, [e.target.name]: e.target.value });
   };
 
-  const resetForm = () => {
+  const reiniciarFormulario = () => {
     setFormData({
-      id_student: '',
-      id_section: '',
-      attendance_date: '',
-      status: '',
-      remarks: '',
+      id_estudiante: '',
+      id_seccion: '',
+      fecha_asistencia: '',
+      estado: '',
+      observaciones: '',
     });
-    setEditMode(false);
-    setSelectedAttendance(null);
+    setModoEdicion(false);
+    setAsistenciaSeleccionada(null);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    resetForm();
+  const cerrarModal = () => {
+    setMostrarModal(false);
+    reiniciarFormulario();
   };
 
-  const filteredAttendances = attendances.filter(
-    (attendance) =>
-      attendance.id_student.toString().includes(filter.id_student) &&
-      attendance.attendance_date.includes(filter.attendance_date)
+  const asistenciasFiltradas = asistencias.filter(
+    (asistencia) =>
+      asistencia.id_estudiante.toString().includes(filtro.id_estudiante) &&
+      asistencia.fecha_asistencia.includes(filtro.fecha_asistencia)
   );
 
   return (
     <CCard>
       <CCardHeader>
-        <h5>Attendance</h5>
-        <CButton color="success" onClick={() => setShowModal(true)}>
-          Add Attendance Record
+        <h5>Registros de Asistencia</h5>
+        <CButton color="success" onClick={() => setMostrarModal(true)}>
+          Agregar Registro de Asistencia
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filter by student ID"
-            name="id_student"
-            value={filter.id_student}
-            onChange={handleFilterChange}
+            placeholder="Filtrar por ID de estudiante"
+            name="id_estudiante"
+            value={filtro.id_estudiante}
+            onChange={cambiarFiltro}
             className="mb-2"
           />
           <CFormInput
             type="date"
-            placeholder="Filter by date"
-            name="attendance_date"
-            value={filter.attendance_date}
-            onChange={handleFilterChange}
+            placeholder="Filtrar por fecha"
+            name="fecha_asistencia"
+            value={filtro.fecha_asistencia}
+            onChange={cambiarFiltro}
           />
         </div>
         <CTable bordered hover responsive>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell>ID Attendance</CTableHeaderCell>
-              <CTableHeaderCell>Student ID</CTableHeaderCell>
-              <CTableHeaderCell>Section ID</CTableHeaderCell>
-              <CTableHeaderCell>Attendance Date</CTableHeaderCell>
-              <CTableHeaderCell>Status</CTableHeaderCell>
-              <CTableHeaderCell>Remarks</CTableHeaderCell>
-              <CTableHeaderCell>Created At</CTableHeaderCell>
-              <CTableHeaderCell>Updated At</CTableHeaderCell>
-              <CTableHeaderCell>Actions</CTableHeaderCell>
+              <CTableHeaderCell>ID Asistencia</CTableHeaderCell>
+              <CTableHeaderCell>ID Estudiante</CTableHeaderCell>
+              <CTableHeaderCell>ID Sección</CTableHeaderCell>
+              <CTableHeaderCell>Fecha de Asistencia</CTableHeaderCell>
+              <CTableHeaderCell>Estado</CTableHeaderCell>
+              <CTableHeaderCell>Observaciones</CTableHeaderCell>
+              <CTableHeaderCell>Creado En</CTableHeaderCell>
+              <CTableHeaderCell>Actualizado En</CTableHeaderCell>
+              <CTableHeaderCell>Acciones</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
-            {filteredAttendances.map((attendance) => (
-              <CTableRow key={attendance.id_attendance}>
-                <CTableDataCell>{attendance.id_attendance}</CTableDataCell>
-                <CTableDataCell>{attendance.id_student}</CTableDataCell>
-                <CTableDataCell>{attendance.id_section}</CTableDataCell>
-                <CTableDataCell>{attendance.attendance_date}</CTableDataCell>
-                <CTableDataCell>{attendance.status}</CTableDataCell>
-                <CTableDataCell>{attendance.remarks}</CTableDataCell>
-                <CTableDataCell>{attendance.created_at}</CTableDataCell>
-                <CTableDataCell>{attendance.updated_at}</CTableDataCell>
+            {asistenciasFiltradas.map((asistencia) => (
+              <CTableRow key={asistencia.id_asistencia}>
+                <CTableDataCell>{asistencia.id_asistencia}</CTableDataCell>
+                <CTableDataCell>{asistencia.id_estudiante}</CTableDataCell>
+                <CTableDataCell>{asistencia.id_seccion}</CTableDataCell>
+                <CTableDataCell>{asistencia.fecha_asistencia}</CTableDataCell>
+                <CTableDataCell>{asistencia.estado}</CTableDataCell>
+                <CTableDataCell>{asistencia.observaciones}</CTableDataCell>
+                <CTableDataCell>{asistencia.creado_en}</CTableDataCell>
+                <CTableDataCell>{asistencia.actualizado_en}</CTableDataCell>
                 <CTableDataCell>
                   <CButton
                     color="warning"
                     size="sm"
-                    onClick={() => handleEditAttendance(attendance)}
+                    onClick={() => editarAsistencia(asistencia)}
                   >
-                    Edit
+                    Editar
                   </CButton>{' '}
                   <CButton
                     color="danger"
                     size="sm"
-                    onClick={() => handleDeleteAttendance(attendance.id_attendance)}
+                    onClick={() => eliminarAsistencia(asistencia.id_asistencia)}
                   >
-                    Delete
+                    Eliminar
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
@@ -203,58 +208,58 @@ const Attendance = () => {
           </CTableBody>
         </CTable>
 
-        <CModal visible={showModal} onClose={handleCloseModal}>
+        <CModal visible={mostrarModal} onClose={cerrarModal}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Edit Attendance Record' : 'Add Attendance Record'}</CModalTitle>
+            <CModalTitle>{modoEdicion ? 'Editar Registro de Asistencia' : 'Agregar Registro de Asistencia'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormInput
                 type="text"
-                label="Student ID"
-                value={formData.id_student}
-                onChange={(e) => setFormData({ ...formData, id_student: e.target.value })}
+                label="ID Estudiante"
+                value={formData.id_estudiante}
+                onChange={(e) => setFormData({ ...formData, id_estudiante: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="Section ID"
-                value={formData.id_section}
-                onChange={(e) => setFormData({ ...formData, id_section: e.target.value })}
+                label="ID Sección"
+                value={formData.id_seccion}
+                onChange={(e) => setFormData({ ...formData, id_seccion: e.target.value })}
                 required
               />
               <CFormInput
                 type="date"
-                label="Attendance Date"
-                value={formData.attendance_date}
-                onChange={(e) => setFormData({ ...formData, attendance_date: e.target.value })}
+                label="Fecha de Asistencia"
+                value={formData.fecha_asistencia}
+                onChange={(e) => setFormData({ ...formData, fecha_asistencia: e.target.value })}
                 required
               />
               <CFormSelect
-                label="Status"
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                label="Estado"
+                value={formData.estado}
+                onChange={(e) => setFormData({ ...formData, estado: e.target.value })}
                 required
               >
-                <option value="">Select Status</option>
-                <option value="Present">Present</option>
-                <option value="Absent">Absent</option>
-                <option value="Late">Late</option>
+                <option value="">Seleccionar Estado</option>
+                <option value="Present">Presente</option>
+                <option value="Absent">Ausente</option>
+                <option value="Late">Tardanza</option>
               </CFormSelect>
               <CFormTextarea
-                label="Remarks"
-                value={formData.remarks}
-                onChange={(e) => setFormData({ ...formData, remarks: e.target.value })}
+                label="Observaciones"
+                value={formData.observaciones}
+                onChange={(e) => setFormData({ ...formData, observaciones: e.target.value })}
                 rows="3"
               />
             </CForm>
           </CModalBody>
           <CModalFooter>
-            <CButton color="success" onClick={handleSaveAttendance}>
-              Save
+            <CButton color="success" onClick={guardarAsistencia}>
+              Guardar
             </CButton>
-            <CButton color="secondary" onClick={handleCloseModal}>
-              Cancel
+            <CButton color="secondary" onClick={cerrarModal}>
+              Cancelar
             </CButton>
           </CModalFooter>
         </CModal>
@@ -263,4 +268,4 @@ const Attendance = () => {
   );
 };
 
-export default Attendance;
+export default Asistencia;
