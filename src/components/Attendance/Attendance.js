@@ -20,7 +20,7 @@ import {
   CFormTextarea,
   CFormSelect,
 } from '@coreui/react';
-import API_URL from '../path/to/config'; // Asegúrate de usar la ruta correcta
+import API_URL from '../../../config'; 
 
 const Asistencia = () => {
   const [asistencias, setAsistencias] = useState([]);
@@ -36,7 +36,7 @@ const Asistencia = () => {
   const [asistenciaSeleccionada, setAsistenciaSeleccionada] = useState(null);
   const [filtro, setFiltro] = useState({ id_estudiante: '', fecha_asistencia: '' });
 
-  // Usa API_URL desde config.js
+
   const asistenciaUrl = `${API_URL}/asistencia`;
 
   useEffect(() => {
