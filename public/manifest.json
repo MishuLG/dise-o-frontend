@@ -3,12 +3,12 @@
   "name": "CoreUI-React sample",
   "icons": [
     {
-      "src": "./assets/img/favicon.png",
+      "src": "./assets/images/icon.png",
       "sizes": "100x100",
       "type": "image/png"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
