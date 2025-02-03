@@ -20,7 +20,7 @@ import {
   CFormTextarea,
   CFormSelect,
 } from '@coreui/react';
-import API_URL from '../../../config'; 
+import API_URL from '../../../config';
 
 const Asistencia = () => {
   const [asistencias, setAsistencias] = useState([]);
@@ -36,18 +36,28 @@ const Asistencia = () => {
   const [asistenciaSeleccionada, setAsistenciaSeleccionada] = useState(null);
   const [filtro, setFiltro] = useState({ id_estudiante: '', fecha_asistencia: '' });
 
-
   const asistenciaUrl = `${API_URL}/attendance`;
 
   useEffect(() => {
     obtenerAsistencias();
   }, []);
 
+  useEffect(() => {
+    console.log('Datos de asistencias:', asistencias);
+  }, [asistencias]);
+
   const obtenerAsistencias = async () => {
     try {
       const respuesta = await fetch(asistenciaUrl);
       const datos = await respuesta.json();
-      setAsistencias(datos);
+
+      
+      if (Array.isArray(datos)) {
+        setAsistencias(datos);
+      } else {
+        console.error('Los datos recibidos no son un array:', datos);
+        alert('Error: Los datos recibidos no son válidos.');
+      }
     } catch (error) {
       console.error('Error al obtener los registros de asistencia:', error);
       alert('Ocurrió un error al obtener los registros de asistencia. Por favor, inténtalo de nuevo.');
@@ -131,11 +141,15 @@ const Asistencia = () => {
     reiniciarFormulario();
   };
 
-  const asistenciasFiltradas = asistencias.filter(
-    (asistencia) =>
-      asistencia.id_estudiante.toString().includes(filtro.id_estudiante) &&
-      asistencia.fecha_asistencia.includes(filtro.fecha_asistencia)
-  );
+  const asistenciasFiltradas = asistencias.filter((asistencia) => {
+    const idEstudiante = asistencia.id_estudiante ? asistencia.id_estudiante.toString() : '';
+    const fechaAsistencia = asistencia.fecha_asistencia || '';
+
+    return (
+      idEstudiante.includes(filtro.id_estudiante) &&
+      fechaAsistencia.includes(filtro.fecha_asistencia)
+    );
+  });
 
   return (
     <CCard>
