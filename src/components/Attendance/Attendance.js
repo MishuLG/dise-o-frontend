@@ -22,132 +22,131 @@ import {
 } from '@coreui/react';
 import API_URL from '../../../config';
 
-const Asistencia = () => {
-  const [asistencias, setAsistencias] = useState([]);
+const Attendance = () => {
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
   const [formData, setFormData] = useState({
-    id_estudiante: '',
-    id_seccion: '',
-    fecha_asistencia: '',
-    estado: '',
-    observaciones: '',
+    id_student: '',
+    id_section: '',
+    attendance_date: '',
+    status: '',
+    remarks: '',
   });
-  const [mostrarModal, setMostrarModal] = useState(false);
-  const [modoEdicion, setModoEdicion] = useState(false);
-  const [asistenciaSeleccionada, setAsistenciaSeleccionada] = useState(null);
-  const [filtro, setFiltro] = useState({ id_estudiante: '', fecha_asistencia: '' });
+  const [showModal, setShowModal] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [selectedAttendance, setSelectedAttendance] = useState(null);
+  const [filter, setFilter] = useState({ id_student: '', attendance_date: '' });
 
-  const asistenciaUrl = `${API_URL}/attendance`;
+  const attendanceUrl = `${API_URL}/attendance`;
 
   useEffect(() => {
-    obtenerAsistencias();
+    fetchAttendanceRecords();
   }, []);
 
   useEffect(() => {
-    console.log('Datos de asistencias:', asistencias);
-  }, [asistencias]);
+    console.log('Attendance data:', attendanceRecords);
+  }, [attendanceRecords]);
 
-  const obtenerAsistencias = async () => {
+  const fetchAttendanceRecords = async () => {
     try {
-      const respuesta = await fetch(asistenciaUrl);
-      const datos = await respuesta.json();
+      const response = await fetch(attendanceUrl);
+      const data = await response.json();
 
-      
-      if (Array.isArray(datos)) {
-        setAsistencias(datos);
+      if (Array.isArray(data)) {
+        setAttendanceRecords(data);
       } else {
-        console.error('Los datos recibidos no son un array:', datos);
-        alert('Error: Los datos recibidos no son válidos.');
+        console.error('Received data is not an array:', data);
+        alert('Error: Invalid data received.');
       }
     } catch (error) {
-      console.error('Error al obtener los registros de asistencia:', error);
-      alert('Ocurrió un error al obtener los registros de asistencia. Por favor, inténtalo de nuevo.');
+      console.error('Error fetching attendance records:', error);
+      alert('An error occurred while fetching attendance records. Please try again.');
     }
   };
 
-  const guardarAsistencia = async () => {
+  const saveAttendanceRecord = async () => {
     try {
-      const metodo = modoEdicion ? 'PUT' : 'POST';
-      const url = modoEdicion ? `${asistenciaUrl}/${asistenciaSeleccionada.id_asistencia}` : asistenciaUrl;
+      const method = editMode ? 'PUT' : 'POST';
+      const url = editMode ? `${attendanceUrl}/${selectedAttendance.id_attendance}` : attendanceUrl;
 
-      const respuesta = await fetch(url, {
-        method: metodo,
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
 
-      if (!respuesta.ok) {
-        throw new Error('Error en la respuesta del servidor');
+      if (!response.ok) {
+        throw new Error('Server response error');
       }
 
-      obtenerAsistencias();
-      setMostrarModal(false);
-      reiniciarFormulario();
+      fetchAttendanceRecords();
+      setShowModal(false);
+      resetForm();
     } catch (error) {
-      console.error('Error al guardar el registro de asistencia:', error);
-      alert('Ocurrió un error al guardar el registro de asistencia. Por favor, inténtalo de nuevo.');
+      console.error('Error saving attendance record:', error);
+      alert('An error occurred while saving the attendance record. Please try again.');
     }
   };
 
-  const editarAsistencia = (asistencia) => {
-    setAsistenciaSeleccionada(asistencia);
+  const editAttendanceRecord = (attendance) => {
+    setSelectedAttendance(attendance);
     setFormData({
-      id_estudiante: asistencia.id_estudiante,
-      id_seccion: asistencia.id_seccion,
-      fecha_asistencia: asistencia.fecha_asistencia,
-      estado: asistencia.estado,
-      observaciones: asistencia.observaciones,
+      id_student: attendance.id_student,
+      id_section: attendance.id_section,
+      attendance_date: attendance.attendance_date,
+      status: attendance.status,
+      remarks: attendance.remarks,
     });
-    setModoEdicion(true);
-    setMostrarModal(true);
+    setEditMode(true);
+    setShowModal(true);
   };
 
-  const eliminarAsistencia = async (id) => {
+  const deleteAttendanceRecord = async (id) => {
     try {
-      const respuesta = await fetch(`${asistenciaUrl}/${id}`, {
+      const response = await fetch(`${attendanceUrl}/${id}`, {
         method: 'DELETE',
       });
 
-      if (!respuesta.ok) {
-        throw new Error('Error en la respuesta del servidor');
+      if (!response.ok) {
+        throw new Error('Server response error');
       }
 
-      obtenerAsistencias();
+      fetchAttendanceRecords();
     } catch (error) {
-      console.error('Error al eliminar el registro de asistencia:', error);
-      alert('Ocurrió un error al eliminar el registro de asistencia. Por favor, inténtalo de nuevo.');
+      console.error('Error deleting attendance record:', error);
+      alert('An error occurred while deleting the attendance record. Please try again.');
     }
   };
 
-  const cambiarFiltro = (e) => {
-    setFiltro({ ...filtro, [e.target.name]: e.target.value });
+  const handleFilterChange = (e) => {
+    setFilter({ ...filter, [e.target.name]: e.target.value });
   };
 
-  const reiniciarFormulario = () => {
+  const resetForm = () => {
     setFormData({
-      id_estudiante: '',
-      id_seccion: '',
-      fecha_asistencia: '',
-      estado: '',
-      observaciones: '',
+      id_student: '',
+      id_section: '',
+      attendance_date: '',
+      status: '',
+      remarks: '',
     });
-    setModoEdicion(false);
-    setAsistenciaSeleccionada(null);
+    setEditMode(false);
+    setSelectedAttendance(null);
   };
 
-  const cerrarModal = () => {
-    setMostrarModal(false);
-    reiniciarFormulario();
+  const closeModal = () => {
+    setShowModal(false);
+    resetForm();
   };
 
-  const asistenciasFiltradas = asistencias.filter((asistencia) => {
-    const idEstudiante = asistencia.id_estudiante ? asistencia.id_estudiante.toString() : '';
-    const fechaAsistencia = asistencia.fecha_asistencia || '';
+  const filteredAttendanceRecords = attendanceRecords.filter((attendance) => {
+    const studentId = attendance.id_student ? attendance.id_student.toString() : '';
+    const attendanceDate = attendance.attendance_date || '';
 
     return (
-      idEstudiante.includes(filtro.id_estudiante) &&
-      fechaAsistencia.includes(filtro.fecha_asistencia)
+      studentId.includes(filter.id_student) &&
+      attendanceDate.includes(filter.attendance_date)
     );
   });
 
@@ -155,7 +154,7 @@ const Asistencia = () => {
     <CCard>
       <CCardHeader>
         <h5>Registros de Asistencia</h5>
-        <CButton color="success" onClick={() => setMostrarModal(true)}>
+        <CButton color="success" onClick={() => setShowModal(true)}>
           Agregar Registro de Asistencia
         </CButton>
       </CCardHeader>
@@ -163,17 +162,17 @@ const Asistencia = () => {
         <div className="mb-3">
           <CFormInput
             placeholder="Filtrar por ID de estudiante"
-            name="id_estudiante"
-            value={filtro.id_estudiante}
-            onChange={cambiarFiltro}
+            name="id_student"
+            value={filter.id_student}
+            onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormInput
             type="date"
             placeholder="Filtrar por fecha"
-            name="fecha_asistencia"
-            value={filtro.fecha_asistencia}
-            onChange={cambiarFiltro}
+            name="attendance_date"
+            value={filter.attendance_date}
+            onChange={handleFilterChange}
           />
         </div>
         <CTable bordered hover responsive>
@@ -191,28 +190,28 @@ const Asistencia = () => {
             </CTableRow>
           </CTableHead>
           <CTableBody>
-            {asistenciasFiltradas.map((asistencia) => (
-              <CTableRow key={asistencia.id_asistencia}>
-                <CTableDataCell>{asistencia.id_asistencia}</CTableDataCell>
-                <CTableDataCell>{asistencia.id_estudiante}</CTableDataCell>
-                <CTableDataCell>{asistencia.id_seccion}</CTableDataCell>
-                <CTableDataCell>{asistencia.fecha_asistencia}</CTableDataCell>
-                <CTableDataCell>{asistencia.estado}</CTableDataCell>
-                <CTableDataCell>{asistencia.observaciones}</CTableDataCell>
-                <CTableDataCell>{asistencia.creado_en}</CTableDataCell>
-                <CTableDataCell>{asistencia.actualizado_en}</CTableDataCell>
+            {filteredAttendanceRecords.map((attendance) => (
+              <CTableRow key={attendance.id_attendance}>
+                <CTableDataCell>{attendance.id_attendance}</CTableDataCell>
+                <CTableDataCell>{attendance.id_student}</CTableDataCell>
+                <CTableDataCell>{attendance.id_section}</CTableDataCell>
+                <CTableDataCell>{attendance.attendance_date}</CTableDataCell>
+                <CTableDataCell>{attendance.status}</CTableDataCell>
+                <CTableDataCell>{attendance.remarks}</CTableDataCell>
+                <CTableDataCell>{attendance.created_at}</CTableDataCell>
+                <CTableDataCell>{attendance.updated_at}</CTableDataCell>
                 <CTableDataCell>
                   <CButton
                     color="warning"
                     size="sm"
-                    onClick={() => editarAsistencia(asistencia)}
+                    onClick={() => editAttendanceRecord(attendance)}
                   >
                     Editar
                   </CButton>{' '}
                   <CButton
                     color="danger"
                     size="sm"
-                    onClick={() => eliminarAsistencia(asistencia.id_asistencia)}
+                    onClick={() => deleteAttendanceRecord(attendance.id_attendance)}
                   >
                     Eliminar
                   </CButton>
@@ -222,37 +221,37 @@ const Asistencia = () => {
           </CTableBody>
         </CTable>
 
-        <CModal visible={mostrarModal} onClose={cerrarModal}>
+        <CModal visible={showModal} onClose={closeModal}>
           <CModalHeader>
-            <CModalTitle>{modoEdicion ? 'Editar Registro de Asistencia' : 'Agregar Registro de Asistencia'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Editar Registro de Asistencia' : 'Agregar Registro de Asistencia'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormInput
                 type="text"
                 label="ID Estudiante"
-                value={formData.id_estudiante}
-                onChange={(e) => setFormData({ ...formData, id_estudiante: e.target.value })}
+                value={formData.id_student}
+                onChange={(e) => setFormData({ ...formData, id_student: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
                 label="ID Sección"
-                value={formData.id_seccion}
-                onChange={(e) => setFormData({ ...formData, id_seccion: e.target.value })}
+                value={formData.id_section}
+                onChange={(e) => setFormData({ ...formData, id_section: e.target.value })}
                 required
               />
               <CFormInput
                 type="date"
                 label="Fecha de Asistencia"
-                value={formData.fecha_asistencia}
-                onChange={(e) => setFormData({ ...formData, fecha_asistencia: e.target.value })}
+                value={formData.attendance_date}
+                onChange={(e) => setFormData({ ...formData, attendance_date: e.target.value })}
                 required
               />
               <CFormSelect
                 label="Estado"
-                value={formData.estado}
-                onChange={(e) => setFormData({ ...formData, estado: e.target.value })}
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                 required
               >
                 <option value="">Seleccionar Estado</option>
@@ -260,19 +259,13 @@ const Asistencia = () => {
                 <option value="Absent">Ausente</option>
                 <option value="Late">Tardanza</option>
               </CFormSelect>
-              <CFormTextarea
-                label="Observaciones"
-                value={formData.observaciones}
-                onChange={(e) => setFormData({ ...formData, observaciones: e.target.value })}
-                rows="3"
-              />
             </CForm>
           </CModalBody>
           <CModalFooter>
-            <CButton color="success" onClick={guardarAsistencia}>
+            <CButton color="success" onClick={saveAttendanceRecord}>
               Guardar
             </CButton>
-            <CButton color="secondary" onClick={cerrarModal}>
+            <CButton color="secondary" onClick={closeModal}>
               Cancelar
             </CButton>
           </CModalFooter>
@@ -282,4 +275,4 @@ const Asistencia = () => {
   );
 };
 
-export default Asistencia;
+export default Attendance;
