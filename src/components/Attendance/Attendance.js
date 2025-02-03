@@ -37,7 +37,7 @@ const Asistencia = () => {
   const [filtro, setFiltro] = useState({ id_estudiante: '', fecha_asistencia: '' });
 
 
-  const asistenciaUrl = `${API_URL}/asistencia`;
+  const asistenciaUrl = `${API_URL}/attendance`;
 
   useEffect(() => {
     obtenerAsistencias();
