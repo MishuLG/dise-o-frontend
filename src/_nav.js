@@ -48,7 +48,7 @@ const _nav = [
  
   {
     component: CNavGroup,
-    name: 'Registration',
+    name: 'Registros',
     to: '/',
     icon: <CIcon icon={cilUserFollow} customClassName="nav-icon" />,
     items: [
@@ -67,7 +67,7 @@ const _nav = [
 
   {
     component: CNavGroup,
-    name: 'Academic',
+    name: 'Academico',
     to: '/buttons',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
     items: [
