@@ -25,12 +25,12 @@ import API_URL from '../../../config';
 const Students = () => {
   const [students, setStudents] = useState([]);
   const [formData, setFormData] = useState({
-    tutor_id: '',
-    section_id: '',
-    school_year_id: '',
-    student_first_name: '',
-    student_last_name: '',
-    date_of_birth: '',
+    id_tutor: '',
+    id_section: '',
+    id_school_year: '',
+    first_name_student: '',
+    last_name_student: '',
+    date_of_birth_student: '',
     health_record: '',
     gender: '',
     street: '',
@@ -40,7 +40,7 @@ const Students = () => {
   const [showModal, setShowModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
-  const [filter, setFilter] = useState({ student_first_name: '', section_id: '' });
+  const [filter, setFilter] = useState({ first_name_student: '', id_section: '' });
 
   const studentsUrl = `${API_URL}/students`;
 
@@ -97,13 +97,13 @@ const Students = () => {
   const editStudent = (student) => {
     setSelectedStudent(student);
     setFormData({
-      tutor_id: student.tutor_id,
-      section_id: student.section_id,
-      school_year_id: student.school_year_id,
-      student_first_name: student.student_first_name,
-      student_last_name: student.student_last_name,
-      date_of_birth: student.date_of_birth
-        ? student.date_of_birth.split('T')[0]
+      id_tutor: student.id_tutor,
+      id_section: student.id_section,
+      id_school_year: student.id_school_year,
+      first_name_student: student.first_name_student,
+      last_name_student: student.last_name_student,
+      date_of_birth_student: student.date_of_birth_student
+        ? student.date_of_birth_student.split('T')[0]
         : '',
       health_record: student.health_record,
       gender: student.gender,
@@ -134,12 +134,12 @@ const Students = () => {
 
   const resetForm = () => {
     setFormData({
-      tutor_id: '',
-      section_id: '',
-      school_year_id: '',
-      student_first_name: '',
-      student_last_name: '',
-      date_of_birth: '',
+      id_tutor: '',
+      id_section: '',
+      id_school_year: '',
+      first_name_student: '',
+      last_name_student: '',
+      date_of_birth_student: '',
       health_record: '',
       gender: '',
       street: '',
@@ -155,14 +155,14 @@ const Students = () => {
   };
 
   const filteredStudents = students.filter((student) => {
-    const studentName = student.student_first_name
-      ? student.student_first_name.toLowerCase()
+    const studentName = first_name_student_student
+      ? first_name_student_student.toLowerCase()
       : '';
-    const sectionId = student.section_id ? student.section_id.toString() : '';
+    const sectionId = student.id_section ? student.id_section.toString() : '';
 
     return (
-      studentName.includes(filter.student_first_name.toLowerCase()) &&
-      sectionId.includes(filter.section_id)
+      studentName.includes(filter.first_name_student.toLowerCase()) &&
+      sectionId.includes(filter.id_section)
     );
   });
 
@@ -179,14 +179,14 @@ const Students = () => {
           <CFormInput
             placeholder="Filtrar por nombre"
             name="student_first_name"
-            value={filter.student_first_name}
+            value={filter.first_name_student}
             onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormInput
             placeholder="Filtrar por ID de sección"
             name="section_id"
-            value={filter.section_id}
+            value={filter.id_section}
             onChange={handleFilterChange}
           />
         </div>
@@ -212,12 +212,12 @@ const Students = () => {
             {filteredStudents.map((student) => (
               <CTableRow key={student.id_student}>
                 <CTableDataCell>{student.id_student}</CTableDataCell>
-                <CTableDataCell>{student.tutor_id}</CTableDataCell>
-                <CTableDataCell>{student.section_id}</CTableDataCell>
-                <CTableDataCell>{student.school_year_id}</CTableDataCell>
-                <CTableDataCell>{student.student_first_name}</CTableDataCell>
-                <CTableDataCell>{student.student_last_name}</CTableDataCell>
-                <CTableDataCell>{student.date_of_birth}</CTableDataCell>
+                <CTableDataCell>{student.id_tutor}</CTableDataCell>
+                <CTableDataCell>{student.id_section}</CTableDataCell>
+                <CTableDataCell>{student.id_school_year}</CTableDataCell>
+                <CTableDataCell>{student.first_name_student}</CTableDataCell>
+                <CTableDataCell>{student.last_name_student}</CTableDataCell>
+                <CTableDataCell>{student.date_of_birth_student}</CTableDataCell>
                 <CTableDataCell>{student.health_record}</CTableDataCell>
                 <CTableDataCell>{student.gender}</CTableDataCell>
                 <CTableDataCell>{student.street}</CTableDataCell>
@@ -253,43 +253,43 @@ const Students = () => {
               <CFormInput
                 type="text"
                 label="ID Tutor"
-                value={formData.tutor_id}
-                onChange={(e) => setFormData({ ...formData, tutor_id: e.target.value })}
+                value={formData.id_tutor}
+                onChange={(e) => setFormData({ ...formData, id_tutor: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
                 label="ID Sección"
-                value={formData.section_id}
-                onChange={(e) => setFormData({ ...formData, section_id: e.target.value })}
+                value={formData.id_section}
+                onChange={(e) => setFormData({ ...formData, id_section: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
                 label="ID Año Escolar"
-                value={formData.school_year_id}
-                onChange={(e) => setFormData({ ...formData, school_year_id: e.target.value })}
+                value={formData.id_school_year}
+                onChange={(e) => setFormData({ ...formData, id_school_year: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
                 label="Nombre"
-                value={formData.student_first_name}
-                onChange={(e) => setFormData({ ...formData, student_first_name: e.target.value })}
+                value={formData.first_name_student}
+                onChange={(e) => setFormData({ ...formData, first_name_student: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
                 label="Apellido"
-                value={formData.student_last_name}
-                onChange={(e) => setFormData({ ...formData, student_last_name: e.target.value })}
+                value={formData.last_name_student}
+                onChange={(e) => setFormData({ ...formData, last_name_student: e.target.value })}
                 required
               />
               <CFormInput
                 type="date"
                 label="Fecha de Nacimiento"
-                value={formData.date_of_birth}
-                onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
+                value={formData.date_of_birth_student}
+                onChange={(e) => setFormData({ ...formData, date_of_birth_student: e.target.value })}
                 required
               />
               <CFormTextarea
