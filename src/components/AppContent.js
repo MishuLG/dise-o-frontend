@@ -15,7 +15,7 @@ const AppContent = ({ currentUser }) => {
               route.element && (
                 <Route
                   key={idx}
-                  path={route.path}
+                  path="/profile"
                   exact={route.exact}
                   name={route.name}
                   element={React.cloneElement(route.element, { currentUser })}
