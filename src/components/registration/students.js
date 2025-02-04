@@ -53,7 +53,6 @@ const Students = () => {
       const response = await fetch(studentsUrl);
       const data = await response.json();
 
-
       if (Array.isArray(data)) {
         setStudents(data);
       } else {
@@ -155,8 +154,8 @@ const Students = () => {
   };
 
   const filteredStudents = students.filter((student) => {
-    const studentName = first_name_student
-      ? first_name_student.toLowerCase()
+    const studentName = student.first_name_student
+      ? student.first_name_student.toLowerCase()
       : '';
     const sectionId = student.id_section ? student.id_section.toString() : '';
 
@@ -178,14 +177,14 @@ const Students = () => {
         <div className="mb-3">
           <CFormInput
             placeholder="Filtrar por nombre"
-            name="student_first_name"
+            name="first_name_student"
             value={filter.first_name_student}
             onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormInput
             placeholder="Filtrar por ID de sección"
-            name="section_id"
+            name="id_section"
             value={filter.id_section}
             onChange={handleFilterChange}
           />
