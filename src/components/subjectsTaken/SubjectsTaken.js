@@ -187,13 +187,13 @@ const SubjectsTaken = () => {
                     size="sm"
                     onClick={() => handleEditSubjectTaken(subjectTaken)}
                   >
-                    Editar
+                   {/*  Editar
                   </CButton>{' '}
                   <CButton
                     color="danger"
                     size="sm"
                     onClick={() => handleDeleteSubjectTaken(subjectTaken.id_subject_taken)}
-                  >
+                  >*/}
                     Eliminar
                   </CButton>
                 </CTableDataCell>
