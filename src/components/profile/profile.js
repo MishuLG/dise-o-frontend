@@ -98,7 +98,7 @@ const Profile = ({ currentUser, setUsers }) => {
 
   return (
     <CCard>
-      <CCardHeader>User Profile</CCardHeader>
+      <CCardHeader>Perfil de usuario</CCardHeader>
       <CCardBody>
         <div className="text-center mb-4">
           <CImage src={profilePic} className="img-thumbnail" width="150" height="150" alt="Profile" />
@@ -111,14 +111,14 @@ const Profile = ({ currentUser, setUsers }) => {
               id="upload-photo"
             />
             <CButton color="primary" size="sm" className="mt-2" onClick={() => document.getElementById('upload-photo').click()}>
-              Change Photo
+              Cambiar foto
             </CButton>
           </div>
         </div>
 
         <CForm onSubmit={handleSubmit}>
           <div className="mb-3">
-            <CFormLabel>Name</CFormLabel>
+            <CFormLabel>Nombre</CFormLabel>
             <CFormInput
               type="text"
               value={name}
@@ -138,7 +138,7 @@ const Profile = ({ currentUser, setUsers }) => {
             />
           </div>
           <div className="mb-3">
-            <CFormLabel>Phone</CFormLabel>
+            <CFormLabel>telefono</CFormLabel>
             <CFormInput
               type="tel"
               value={phone}
@@ -147,7 +147,7 @@ const Profile = ({ currentUser, setUsers }) => {
             />
           </div>
           <div className="mb-3">
-            <CFormLabel>Address</CFormLabel>
+            <CFormLabel>Direccion</CFormLabel>
             <CFormInput
               type="text"
               value={address}
@@ -164,7 +164,7 @@ const Profile = ({ currentUser, setUsers }) => {
             </CFormSelect>
           </div>
           <div className="mb-3">
-            <CFormLabel>Password</CFormLabel>
+            <CFormLabel>Contraseña</CFormLabel>
             <CFormInput
               type="password"
               value={password}
@@ -173,7 +173,7 @@ const Profile = ({ currentUser, setUsers }) => {
             />
           </div>
           <CButton color="success" type="submit" className="mt-3">
-            Save changes
+            Guardar cambios
           </CButton>
         </CForm>
       </CCardBody>
