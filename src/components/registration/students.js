@@ -155,8 +155,8 @@ const Students = () => {
   };
 
   const filteredStudents = students.filter((student) => {
-    const studentName = first_name_student_student
-      ? first_name_student_student.toLowerCase()
+    const studentName = first_name_student
+      ? first_name_student.toLowerCase()
       : '';
     const sectionId = student.id_section ? student.id_section.toString() : '';
 
