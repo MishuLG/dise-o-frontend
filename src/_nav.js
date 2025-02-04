@@ -37,7 +37,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'users',
+    name: 'Usuarios',
     to: '/users',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
@@ -54,12 +54,12 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Students',
+        name: 'Estudiantes',
         to: '/students',
       },
       {
         component: CNavItem,
-        name: 'Tutors',
+        name: 'Representantes',
         to: '/tutors',
       },
     ],
@@ -73,57 +73,57 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'sections',
+        name: 'Secciones',
         to: '/sections',
       },
       {
         component: CNavItem,
-        name: 'subjects',
+        name: 'Materias',
         to: '/subjects',
       },
       {
         component: CNavItem,
-        name: 'subjects taken',
+        name: 'Materias Cursadas',
         to: '/subjects_taken',
       },
       {
         component: CNavItem,
-        name: 'School year',
+        name: 'Año Escolar',
         to: '/school_year',
       },
       {
         component: CNavItem,
-        name: 'Class Schedules',
+        name: 'Horario de Clases',
         to: '/class_schedules',
       },
     ],
   },
   {
     component: CNavItem,
-    name: 'Attendance',
+    name: 'Asistencia',
     to: '/attendance',
     icon: <CIcon icon={cilMoodVeryGood} customClassName="nav-icon" />
   },
   {
     component: CNavGroup,
-    name: 'Ratings',
+    name: 'Calificaciones',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Evaluations',
+        name: 'Evaluaciones',
         to: '/evaluations',
       },
     ],
   },
   {
     component: CNavGroup,
-    name: 'Newsletters',
+    name: 'Boletines',
     icon: <CIcon icon={cilFile} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Grade Reports',
+        name: 'Informes de Calificaciones',
         to: '/grade_reports',
       },
     ],
