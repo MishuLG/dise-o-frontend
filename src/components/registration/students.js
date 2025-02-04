@@ -20,16 +20,17 @@ import {
   CFormTextarea,
   CFormSelect,
 } from '@coreui/react';
+import API_URL from '../../../config'; 
 
 const Students = () => {
   const [students, setStudents] = useState([]);
   const [formData, setFormData] = useState({
-    id_tutor: '',
-    id_section: '',
-    id_school_year: '',
-    first_name_student: '',
-    last_name_student: '',
-    date_of_birth_student: '',
+    tutor_id: '',
+    section_id: '',
+    school_year_id: '',
+    student_first_name: '',
+    student_last_name: '',
+    date_of_birth: '',
     health_record: '',
     gender: '',
     street: '',
@@ -39,9 +40,9 @@ const Students = () => {
   const [showModal, setShowModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
-  const [filter, setFilter] = useState({ first_name_student: '', id_section: '' });
+  const [filter, setFilter] = useState({ student_first_name: '', section_id: '' });
 
-  const BASE_URL = 'http://localhost:4000/api';
+  const studentsUrl = `${API_URL}/students`;
 
   useEffect(() => {
     fetchStudents();
@@ -49,30 +50,39 @@ const Students = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/students`);
+      const response = await fetch(studentsUrl);
       const data = await response.json();
-      setStudents(data);
+
+
+      if (Array.isArray(data)) {
+        setStudents(data);
+      } else {
+        console.error('The received data is not an array:', data);
+        alert('Error: The received data is not valid.');
+      }
     } catch (error) {
       console.error('Error fetching students:', error);
+      alert('An error occurred while fetching students. Please try again.');
     }
   };
 
-  const handleSaveStudent = async () => {
+  const saveStudent = async () => {
     try {
-      const requestOptions = {
-        method: editMode ? 'PUT' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      };
-
+      const method = editMode ? 'PUT' : 'POST';
       const url = editMode
-        ? `${BASE_URL}/students/${selectedStudent.id_student}`
-        : `${BASE_URL}/students`;
+        ? `${studentsUrl}/${selectedStudent.id_student}`
+        : studentsUrl;
 
-      const response = await fetch(url, requestOptions);
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (!response.ok) {
-        throw new Error('Failed to save student');
+        throw new Error('Server response error');
       }
 
       await fetchStudents();
@@ -80,19 +90,20 @@ const Students = () => {
       resetForm();
     } catch (error) {
       console.error('Error saving student:', error);
+      alert('An error occurred while saving the student. Please try again.');
     }
   };
 
-  const handleEditStudent = (student) => {
+  const editStudent = (student) => {
     setSelectedStudent(student);
     setFormData({
-      id_tutor: student.id_tutor,
-      id_section: student.id_section,
-      id_school_year: student.id_school_year,
-      first_name_student: student.first_name_student,
-      last_name_student: student.last_name_student,
-      date_of_birth_student: student.date_of_birth_student
-        ? student.date_of_birth_student.split('T')[0]
+      tutor_id: student.tutor_id,
+      section_id: student.section_id,
+      school_year_id: student.school_year_id,
+      student_first_name: student.student_first_name,
+      student_last_name: student.student_last_name,
+      date_of_birth: student.date_of_birth
+        ? student.date_of_birth.split('T')[0]
         : '',
       health_record: student.health_record,
       gender: student.gender,
@@ -104,30 +115,31 @@ const Students = () => {
     setShowModal(true);
   };
 
-  const handleDeleteStudent = async (id) => {
+  const deleteStudent = async (id) => {
     try {
-      const response = await fetch(`${BASE_URL}/students/${id}`, {
+      const response = await fetch(`${studentsUrl}/${id}`, {
         method: 'DELETE',
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete student');
+        throw new Error('Server response error');
       }
 
       await fetchStudents();
     } catch (error) {
       console.error('Error deleting student:', error);
+      alert('An error occurred while deleting the student. Please try again.');
     }
   };
 
   const resetForm = () => {
     setFormData({
-      id_tutor: '',
-      id_section: '',
-      id_school_year: '',
-      first_name_student: '',
-      last_name_student: '',
-      date_of_birth_student: '',
+      tutor_id: '',
+      section_id: '',
+      school_year_id: '',
+      student_first_name: '',
+      student_last_name: '',
+      date_of_birth: '',
       health_record: '',
       gender: '',
       street: '',
@@ -142,65 +154,70 @@ const Students = () => {
     setFilter({ ...filter, [e.target.name]: e.target.value });
   };
 
-  const filteredStudents = students.filter(
-    (student) =>
-      (student.first_name_student &&
-        student.first_name_student.toLowerCase().includes(filter.first_name_student.toLowerCase())) &&
-      (student.id_section && student.id_section.toString().includes(filter.id_section))
-  );
+  const filteredStudents = students.filter((student) => {
+    const studentName = student.student_first_name
+      ? student.student_first_name.toLowerCase()
+      : '';
+    const sectionId = student.section_id ? student.section_id.toString() : '';
+
+    return (
+      studentName.includes(filter.student_first_name.toLowerCase()) &&
+      sectionId.includes(filter.section_id)
+    );
+  });
 
   return (
     <CCard>
       <CCardHeader>
-        <h5>Students</h5>
+        <h5>Registros de Estudiantes</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Add Student
+          Agregar Estudiante
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filter by first name"
-            name="first_name_student"
-            value={filter.first_name_student}
+            placeholder="Filtrar por nombre"
+            name="student_first_name"
+            value={filter.student_first_name}
             onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormInput
-            placeholder="Filter by section ID"
-            name="id_section"
-            value={filter.id_section}
+            placeholder="Filtrar por ID de sección"
+            name="section_id"
+            value={filter.section_id}
             onChange={handleFilterChange}
           />
         </div>
         <CTable bordered hover responsive>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell>ID Student</CTableHeaderCell>
-              <CTableHeaderCell>Tutor ID</CTableHeaderCell>
-              <CTableHeaderCell>Section ID</CTableHeaderCell>
-              <CTableHeaderCell>School Year ID</CTableHeaderCell>
-              <CTableHeaderCell>First Name</CTableHeaderCell>
-              <CTableHeaderCell>Last Name</CTableHeaderCell>
-              <CTableHeaderCell>Date of Birth</CTableHeaderCell>
-              <CTableHeaderCell>Health Record</CTableHeaderCell>
-              <CTableHeaderCell>Gender</CTableHeaderCell>
-              <CTableHeaderCell>Street</CTableHeaderCell>
-              <CTableHeaderCell>City</CTableHeaderCell>
-              <CTableHeaderCell>Zip Code</CTableHeaderCell>
-              <CTableHeaderCell>Actions</CTableHeaderCell>
+              <CTableHeaderCell>ID Estudiante</CTableHeaderCell>
+              <CTableHeaderCell>ID Tutor</CTableHeaderCell>
+              <CTableHeaderCell>ID Sección</CTableHeaderCell>
+              <CTableHeaderCell>ID Año Escolar</CTableHeaderCell>
+              <CTableHeaderCell>Nombre</CTableHeaderCell>
+              <CTableHeaderCell>Apellido</CTableHeaderCell>
+              <CTableHeaderCell>Fecha de Nacimiento</CTableHeaderCell>
+              <CTableHeaderCell>Historial Médico</CTableHeaderCell>
+              <CTableHeaderCell>Género</CTableHeaderCell>
+              <CTableHeaderCell>Calle</CTableHeaderCell>
+              <CTableHeaderCell>Ciudad</CTableHeaderCell>
+              <CTableHeaderCell>Código Postal</CTableHeaderCell>
+              <CTableHeaderCell>Acciones</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
             {filteredStudents.map((student) => (
               <CTableRow key={student.id_student}>
                 <CTableDataCell>{student.id_student}</CTableDataCell>
-                <CTableDataCell>{student.id_tutor}</CTableDataCell>
-                <CTableDataCell>{student.id_section}</CTableDataCell>
-                <CTableDataCell>{student.id_school_year}</CTableDataCell>
-                <CTableDataCell>{student.first_name_student}</CTableDataCell>
-                <CTableDataCell>{student.last_name_student}</CTableDataCell>
-                <CTableDataCell>{student.date_of_birth_student}</CTableDataCell>
+                <CTableDataCell>{student.tutor_id}</CTableDataCell>
+                <CTableDataCell>{student.section_id}</CTableDataCell>
+                <CTableDataCell>{student.school_year_id}</CTableDataCell>
+                <CTableDataCell>{student.student_first_name}</CTableDataCell>
+                <CTableDataCell>{student.student_last_name}</CTableDataCell>
+                <CTableDataCell>{student.date_of_birth}</CTableDataCell>
                 <CTableDataCell>{student.health_record}</CTableDataCell>
                 <CTableDataCell>{student.gender}</CTableDataCell>
                 <CTableDataCell>{student.street}</CTableDataCell>
@@ -210,16 +227,16 @@ const Students = () => {
                   <CButton
                     color="warning"
                     size="sm"
-                    onClick={() => handleEditStudent(student)}
+                    onClick={() => editStudent(student)}
                   >
-                    Edit
+                    Editar
                   </CButton>{' '}
                   <CButton
                     color="danger"
                     size="sm"
-                    onClick={() => handleDeleteStudent(student.id_student)}
+                    onClick={() => deleteStudent(student.id_student)}
                   >
-                    Delete
+                    Eliminar
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
@@ -229,85 +246,85 @@ const Students = () => {
 
         <CModal visible={showModal} onClose={() => { setShowModal(false); resetForm(); }}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Edit Student' : 'Add Student'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Editar Estudiante' : 'Agregar Estudiante'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormInput
                 type="text"
-                label="Tutor ID"
-                value={formData.id_tutor}
-                onChange={(e) => setFormData({ ...formData, id_tutor: e.target.value })}
+                label="ID Tutor"
+                value={formData.tutor_id}
+                onChange={(e) => setFormData({ ...formData, tutor_id: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="Section ID"
-                value={formData.id_section}
-                onChange={(e) => setFormData({ ...formData, id_section: e.target.value })}
+                label="ID Sección"
+                value={formData.section_id}
+                onChange={(e) => setFormData({ ...formData, section_id: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="School Year ID"
-                value={formData.id_school_year}
-                onChange={(e) => setFormData({ ...formData, id_school_year: e.target.value })}
+                label="ID Año Escolar"
+                value={formData.school_year_id}
+                onChange={(e) => setFormData({ ...formData, school_year_id: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="First Name"
-                value={formData.first_name_student}
-                onChange={(e) => setFormData({ ...formData, first_name_student: e.target.value })}
+                label="Nombre"
+                value={formData.student_first_name}
+                onChange={(e) => setFormData({ ...formData, student_first_name: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="Last Name"
-                value={formData.last_name_student}
-                onChange={(e) => setFormData({ ...formData, last_name_student: e.target.value })}
+                label="Apellido"
+                value={formData.student_last_name}
+                onChange={(e) => setFormData({ ...formData, student_last_name: e.target.value })}
                 required
               />
               <CFormInput
                 type="date"
-                label="Date of Birth"
-                value={formData.date_of_birth_student}
-                onChange={(e) => setFormData({ ...formData, date_of_birth_student: e.target.value })}
+                label="Fecha de Nacimiento"
+                value={formData.date_of_birth}
+                onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
                 required
               />
               <CFormTextarea
-                label="Health Record"
+                label="Historial Médico"
                 value={formData.health_record}
                 onChange={(e) => setFormData({ ...formData, health_record: e.target.value })}
                 rows="3"
               />
               <CFormSelect
-                label="Gender"
+                label="Género"
                 value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                 required
               >
-                <option value="">Select Gender</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
+                <option value="">Seleccionar Género</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
               </CFormSelect>
               <CFormInput
                 type="text"
-                label="Street"
+                label="Calle"
                 value={formData.street}
                 onChange={(e) => setFormData({ ...formData, street: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="City"
+                label="Ciudad"
                 value={formData.city}
                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="Zip Code"
+                label="Código Postal"
                 value={formData.zip_code}
                 onChange={(e) => setFormData({ ...formData, zip_code: e.target.value })}
                 required
@@ -315,11 +332,11 @@ const Students = () => {
             </CForm>
           </CModalBody>
           <CModalFooter>
-            <CButton color="success" onClick={handleSaveStudent}>
-              Save
+            <CButton color="success" onClick={saveStudent}>
+              Guardar
             </CButton>
             <CButton color="secondary" onClick={() => { setShowModal(false); resetForm(); }}>
-              Cancel
+              Cancelar
             </CButton>
           </CModalFooter>
         </CModal>
