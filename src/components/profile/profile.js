@@ -9,11 +9,6 @@ import {
   CButton,
   CImage,
   CFormSelect,
-  CModal,
-  CModalHeader,
-  CModalTitle,
-  CModalBody,
-  CModalFooter,
 } from '@coreui/react';
 import API_URL from '../../../config';
 
@@ -27,8 +22,6 @@ const Profile = ({ currentUser, setUsers }) => {
   const [password, setPassword] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [gender, setGender] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [editMode, setEditMode] = useState(false);
 
   const usersUrl = `${API_URL}/users`;
 
@@ -105,7 +98,6 @@ const Profile = ({ currentUser, setUsers }) => {
           prevUsers.map((user) => (user.id === currentUser.id ? updatedUser : user))
         );
         alert('Perfil actualizado correctamente!');
-        setShowModal(false);
       })
       .catch((error) => console.error('Error al actualizar los datos del usuario:', error));
   };
@@ -127,10 +119,6 @@ const Profile = ({ currentUser, setUsers }) => {
         })
         .catch((error) => console.error('Error al eliminar el usuario:', error));
     }
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
   };
 
   return (

@@ -8,12 +8,12 @@ const DefaultLayout = ({ onLogout, currentUser }) => {
       <div className="wrapper d-flex flex-column min-vh-100">
         <AppHeader onLogout={onLogout} currentUser={currentUser} />
         <div className="body flex-grow-1">
-          <AppContent />
+          <AppContent currentUser={currentUser} /> 
         </div>
         <AppFooter />
       </div>
     </div>
   );
-}
+};
 
 export default DefaultLayout;
