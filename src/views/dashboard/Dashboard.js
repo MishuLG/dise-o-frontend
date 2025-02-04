@@ -67,16 +67,16 @@ const Dashboard = () => {
         ))}
       </CCarousel>
 
-      <h1 className="text-center mt-4">Welcome!</h1>
+      <h1 className="text-center mt-4">¡Bienvenido!</h1>
 
       <CRow className="mt-4">
         <CCol sm={6} lg={3}>
-          <CWidgetStatsA className="mb-4" color="primary" value={totalUsers} title="Total Users" />
+          <CWidgetStatsA className="mb-4" color="primary" value={totalUsers} title="Total de usuarios" />
         </CCol>
       </CRow>
 
       <CCard>
-        <CCardHeader>Student Registrations Per Day</CCardHeader>
+        <CCardHeader>Inscripciones de estudiantes por día</CCardHeader>
         <CCardBody>
           <Chart options={studentChartOptions} series={[{ name: "Students", data: studentRegistrationData }]} type="line" height={300} />
         </CCardBody>
