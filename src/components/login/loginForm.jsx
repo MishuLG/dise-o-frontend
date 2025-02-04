@@ -9,8 +9,9 @@ import {
   Input,
   Alert,
 } from 'reactstrap';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import './login.css';
+import API_URL from '../../../config'; 
 
 const LoginForm = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
@@ -19,47 +20,45 @@ const LoginForm = ({ onLoginSuccess }) => {
   const [recoveryEmail, setRecoveryEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const navigate = useNavigate(); 
-
-  const API_URL = 'http://localhost:4000/api/auth'; 
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage(null);
-  
+
     try {
-      const response = await fetch(`${API_URL}/login`, {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Login failed');
       }
-  
+
       const data = await response.json();
       const { token } = data;
-  
+
       localStorage.setItem('authToken', token);
-  
+
       onLoginSuccess(data.user);
-      navigate('/dashboard'); 
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error during login:', error);
       setErrorMessage(error.message || 'An unexpected error occurred');
     }
   };
-  
+
   const handlePasswordRecovery = async (e) => {
     e.preventDefault();
     setErrorMessage(null);
 
     try {
-      const response = await fetch(`${API_URL}/password-reset/request`, {
+      const response = await fetch(`${API_URL}/auth/password-reset/request`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
