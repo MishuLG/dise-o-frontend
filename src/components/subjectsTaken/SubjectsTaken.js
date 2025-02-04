@@ -182,18 +182,18 @@ const SubjectsTaken = () => {
                 <CTableDataCell>{subjectTaken.created_at}</CTableDataCell>
                 <CTableDataCell>{subjectTaken.updated_at}</CTableDataCell>
                 <CTableDataCell>
-                  <CButton
+                  {/*<CButton
                     color="warning"
                     size="sm"
                     onClick={() => handleEditSubjectTaken(subjectTaken)}
                   >
-                   {/*  Editar
-                  </CButton>{' '}
+                     Editar 
+                  </CButton>{' '}*/}
                   <CButton
                     color="danger"
                     size="sm"
                     onClick={() => handleDeleteSubjectTaken(subjectTaken.id_subject_taken)}
-                  >*/}
+                  >
                     Eliminar
                   </CButton>
                 </CTableDataCell>
