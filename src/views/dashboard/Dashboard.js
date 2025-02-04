@@ -13,6 +13,7 @@ import {
 import Chart from "react-apexcharts";
 import imagen1 from '../../../public/img/WhatsApp Image 2024-11-16 at 2.22.38 PM.jpeg';
 import imagen2 from '../../../public/img/73dd40dc057fbb426a0f758bcd442c96.jpg';
+import API_URL from '../../../config'; 
 
 const images = [imagen1, imagen2];
 
@@ -26,8 +27,8 @@ const Dashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const usersRes = await fetch("http://localhost:4000/api/users");
-      const studentsRes = await fetch("http://localhost:4000/api/students");
+      const usersRes = await fetch(`${API_URL}/users`); 
+      const studentsRes = await fetch(`${API_URL}/students`); 
 
       const usersData = await usersRes.json();
       const studentsData = await studentsRes.json();
