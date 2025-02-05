@@ -30,7 +30,7 @@ const Profile = ({ currentUser, setUsers }) => {
       fetch(`${usersUrl}/${currentUser.id}`)
         .then((response) => {
           if (!response.ok) {
-            throw new Error('Error en la respuesta del servidor');
+            throw new Error('Error in server response');
           }
           return response.json();
         })
@@ -44,7 +44,7 @@ const Profile = ({ currentUser, setUsers }) => {
           setGender(data.gender);
           setProfilePic(data.profilePic || 'https://via.placeholder.com/150');
         })
-        .catch((error) => console.error('Error al obtener los datos del usuario:', error));
+        .catch((error) => console.error('Error fetching user data:', error));
     }
   }, [currentUser, usersUrl]);
 
@@ -63,7 +63,7 @@ const Profile = ({ currentUser, setUsers }) => {
     e.preventDefault();
 
     if (!firstName || !lastName || !dni || !numberTlf || !email || !dateOfBirth || !gender) {
-      alert('Por favor, complete todos los campos requeridos.');
+      alert('Please fill in all required fields.');
       return;
     }
 
@@ -89,7 +89,7 @@ const Profile = ({ currentUser, setUsers }) => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Error en la respuesta del servidor');
+          throw new Error('Error in server response');
         }
         return response.json();
       })
@@ -97,33 +97,33 @@ const Profile = ({ currentUser, setUsers }) => {
         setUsers((prevUsers) =>
           prevUsers.map((user) => (user.id === currentUser.id ? updatedUser : user))
         );
-        alert('Perfil actualizado correctamente!');
+        alert('Profile updated successfully!');
       })
-      .catch((error) => console.error('Error al actualizar los datos del usuario:', error));
+      .catch((error) => console.error('Error updating user data:', error));
   };
 
   const handleDelete = () => {
-    if (window.confirm('¿Está seguro de que desea eliminar este usuario?')) {
+    if (window.confirm('Are you sure you want to delete this user?')) {
       fetch(`${usersUrl}/${currentUser.id}`, {
         method: 'DELETE',
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error('Error en la respuesta del servidor');
+            throw new Error('Error in server response');
           }
           return response.json();
         })
         .then(() => {
           setUsers((prevUsers) => prevUsers.filter((user) => user.id !== currentUser.id));
-          alert('Usuario eliminado correctamente!');
+          alert('User deleted successfully!');
         })
-        .catch((error) => console.error('Error al eliminar el usuario:', error));
+        .catch((error) => console.error('Error deleting user:', error));
     }
   };
 
   return (
     <CCard>
-      <CCardHeader>Perfil de usuario</CCardHeader>
+      <CCardHeader>User Profile</CCardHeader>
       <CCardBody>
         <div className="text-center mb-4">
           <CImage src={profilePic} className="img-thumbnail" width="150" height="150" alt="Profile" />
@@ -136,29 +136,29 @@ const Profile = ({ currentUser, setUsers }) => {
               id="upload-photo"
             />
             <CButton color="primary" size="sm" className="mt-2" onClick={() => document.getElementById('upload-photo').click()}>
-              Cambiar foto
+              Change photo
             </CButton>
           </div>
         </div>
 
         <CForm onSubmit={handleSubmit}>
           <div className="mb-3">
-            <CFormLabel>Nombre</CFormLabel>
+            <CFormLabel>First Name</CFormLabel>
             <CFormInput
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              placeholder="Nombre"
+              placeholder="First Name"
               required
             />
           </div>
           <div className="mb-3">
-            <CFormLabel>Apellido</CFormLabel>
+            <CFormLabel>Last Name</CFormLabel>
             <CFormInput
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              placeholder="Apellido"
+              placeholder="Last Name"
               required
             />
           </div>
@@ -173,12 +173,12 @@ const Profile = ({ currentUser, setUsers }) => {
             />
           </div>
           <div className="mb-3">
-            <CFormLabel>Teléfono</CFormLabel>
+            <CFormLabel>Phone Number</CFormLabel>
             <CFormInput
               type="tel"
               value={numberTlf}
               onChange={(e) => setNumberTlf(e.target.value)}
-              placeholder="Número de teléfono"
+              placeholder="Phone Number"
               required
             />
           </div>
@@ -193,7 +193,7 @@ const Profile = ({ currentUser, setUsers }) => {
             />
           </div>
           <div className="mb-3">
-            <CFormLabel>Fecha de Nacimiento</CFormLabel>
+            <CFormLabel>Date of Birth</CFormLabel>
             <CFormInput
               type="date"
               value={dateOfBirth}
@@ -202,27 +202,26 @@ const Profile = ({ currentUser, setUsers }) => {
             />
           </div>
           <div className="mb-3">
-            <CFormLabel>Género</CFormLabel>
+            <CFormLabel>Gender</CFormLabel>
             <CFormSelect value={gender} onChange={(e) => setGender(e.target.value)} required>
-              <option value="Male">Masculino</option>
-              <option value="Female">Femenino</option>
-              <option value="Other">Otro</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
             </CFormSelect>
           </div>
           <div className="mb-3">
-            <CFormLabel>Contraseña</CFormLabel>
+            <CFormLabel>Password</CFormLabel>
             <CFormInput
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Nueva contraseña"
+              placeholder="New Password"
             />
           </div>
           <CButton color="success" type="submit" className="mt-3">
-            Guardar cambios
+            Save Changes
           </CButton>
           <CButton color="danger" className="mt-3 ms-2" onClick={handleDelete}>
-            Eliminar usuario
+            Delete User
           </CButton>
         </CForm>
       </CCardBody>
