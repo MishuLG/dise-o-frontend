@@ -153,15 +153,15 @@ const Attendance = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h5>Registros de Asistencia</h5>
+        <h5>Attendance Records</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Agregar Registro de Asistencia
+          Add Attendance Record
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filtrar por ID de estudiante"
+            placeholder="Filter by Student ID"
             name="id_student"
             value={filter.id_student}
             onChange={handleFilterChange}
@@ -169,7 +169,7 @@ const Attendance = () => {
           />
           <CFormInput
             type="date"
-            placeholder="Filtrar por fecha"
+            placeholder="Filter by Date"
             name="attendance_date"
             value={filter.attendance_date}
             onChange={handleFilterChange}
@@ -178,15 +178,15 @@ const Attendance = () => {
         <CTable bordered hover responsive>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell>ID Asistencia</CTableHeaderCell>
-              <CTableHeaderCell>ID Estudiante</CTableHeaderCell>
-              <CTableHeaderCell>ID Sección</CTableHeaderCell>
-              <CTableHeaderCell>Fecha de Asistencia</CTableHeaderCell>
-              <CTableHeaderCell>Estado</CTableHeaderCell>
-              <CTableHeaderCell>Observaciones</CTableHeaderCell>
-              <CTableHeaderCell>Creado En</CTableHeaderCell>
-              <CTableHeaderCell>Actualizado En</CTableHeaderCell>
-              <CTableHeaderCell>Acciones</CTableHeaderCell>
+              <CTableHeaderCell>Attendance ID</CTableHeaderCell>
+              <CTableHeaderCell>Student ID</CTableHeaderCell>
+              <CTableHeaderCell>Section ID</CTableHeaderCell>
+              <CTableHeaderCell>Attendance Date</CTableHeaderCell>
+              <CTableHeaderCell>Status</CTableHeaderCell>
+              <CTableHeaderCell>Remarks</CTableHeaderCell>
+              <CTableHeaderCell>Created At</CTableHeaderCell>
+              <CTableHeaderCell>Updated At</CTableHeaderCell>
+              <CTableHeaderCell>Actions</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -206,14 +206,14 @@ const Attendance = () => {
                     size="sm"
                     onClick={() => editAttendanceRecord(attendance)}
                   >
-                    Editar
+                    Edit
                   </CButton>{' '}
                   <CButton
                     color="danger"
                     size="sm"
                     onClick={() => deleteAttendanceRecord(attendance.id_attendance)}
                   >
-                    Eliminar
+                    Delete
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
@@ -223,50 +223,50 @@ const Attendance = () => {
 
         <CModal visible={showModal} onClose={closeModal}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Editar Registro de Asistencia' : 'Agregar Registro de Asistencia'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Edit Attendance Record' : 'Add Attendance Record'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormInput
                 type="text"
-                label="ID Estudiante"
+                label="Student ID"
                 value={formData.id_student}
                 onChange={(e) => setFormData({ ...formData, id_student: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="ID Sección"
+                label="Section ID"
                 value={formData.id_section}
                 onChange={(e) => setFormData({ ...formData, id_section: e.target.value })}
                 required
               />
               <CFormInput
                 type="date"
-                label="Fecha de Asistencia"
+                label="Attendance Date"
                 value={formData.attendance_date}
                 onChange={(e) => setFormData({ ...formData, attendance_date: e.target.value })}
                 required
               />
               <CFormSelect
-                label="Estado"
+                label="Status"
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                 required
               >
-                <option value="">Seleccionar Estado</option>
-                <option value="Present">Presente</option>
-                <option value="Absent">Ausente</option>
-                <option value="Late">Tardanza</option>
+                <option value="">Select Status</option>
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+                <option value="Late">Late</option>
               </CFormSelect>
             </CForm>
           </CModalBody>
           <CModalFooter>
             <CButton color="success" onClick={saveAttendanceRecord}>
-              Guardar
+              Save
             </CButton>
             <CButton color="secondary" onClick={closeModal}>
-              Cancelar
+              Cancel
             </CButton>
           </CModalFooter>
         </CModal>
