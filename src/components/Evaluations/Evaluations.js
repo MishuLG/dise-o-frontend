@@ -195,7 +195,7 @@ const Evaluations = () => {
             {filteredEvaluations.map((evaluation) => (
               <CTableRow key={evaluation.id_evaluations}>
                 <CTableDataCell>{evaluation.id_evaluations}</CTableDataCell>
-                <CTableDataCell>{evaluation.id_student}</CTableDataCell>
+                <CTableDataCell>{evaluation.Student.first_name_student}</CTableDataCell>
                 <CTableDataCell>{evaluation.id_subject}</CTableDataCell>
                 <CTableDataCell>{evaluation.id_class_schedules}</CTableDataCell>
                 <CTableDataCell>{evaluation.total_rating}</CTableDataCell>
