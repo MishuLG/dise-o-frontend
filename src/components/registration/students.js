@@ -168,22 +168,22 @@ const Students = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h5>Registros de Estudiantes</h5>
+        <h5>Student Records</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Agregar Estudiante
+          Add Student
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filtrar por nombre"
+            placeholder="Filter by name"
             name="first_name_student"
             value={filter.first_name_student}
             onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormInput
-            placeholder="Filtrar por ID de sección"
+            placeholder="Filter by Section ID"
             name="id_section"
             value={filter.id_section}
             onChange={handleFilterChange}
@@ -192,19 +192,19 @@ const Students = () => {
         <CTable bordered hover responsive>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell>ID Estudiante</CTableHeaderCell>
-              <CTableHeaderCell>ID Tutor</CTableHeaderCell>
-              <CTableHeaderCell>ID Sección</CTableHeaderCell>
-              <CTableHeaderCell>ID Año Escolar</CTableHeaderCell>
-              <CTableHeaderCell>Nombre</CTableHeaderCell>
-              <CTableHeaderCell>Apellido</CTableHeaderCell>
-              <CTableHeaderCell>Fecha de Nacimiento</CTableHeaderCell>
-              <CTableHeaderCell>Historial Médico</CTableHeaderCell>
-              <CTableHeaderCell>Género</CTableHeaderCell>
-              <CTableHeaderCell>Calle</CTableHeaderCell>
-              <CTableHeaderCell>Ciudad</CTableHeaderCell>
-              <CTableHeaderCell>Código Postal</CTableHeaderCell>
-              <CTableHeaderCell>Acciones</CTableHeaderCell>
+              <CTableHeaderCell>Student ID</CTableHeaderCell>
+              <CTableHeaderCell>Tutor ID</CTableHeaderCell>
+              <CTableHeaderCell>Section ID</CTableHeaderCell>
+              <CTableHeaderCell>School Year ID</CTableHeaderCell>
+              <CTableHeaderCell>First Name</CTableHeaderCell>
+              <CTableHeaderCell>Last Name</CTableHeaderCell>
+              <CTableHeaderCell>Date of Birth</CTableHeaderCell>
+              <CTableHeaderCell>Health Record</CTableHeaderCell>
+              <CTableHeaderCell>Gender</CTableHeaderCell>
+              <CTableHeaderCell>Street</CTableHeaderCell>
+              <CTableHeaderCell>City</CTableHeaderCell>
+              <CTableHeaderCell>Zip Code</CTableHeaderCell>
+              <CTableHeaderCell>Actions</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -228,14 +228,14 @@ const Students = () => {
                     size="sm"
                     onClick={() => editStudent(student)}
                   >
-                    Editar
+                    Edit
                   </CButton>{' '}
                   <CButton
                     color="danger"
                     size="sm"
                     onClick={() => deleteStudent(student.id_student)}
                   >
-                    Eliminar
+                    Delete
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
@@ -245,85 +245,85 @@ const Students = () => {
 
         <CModal visible={showModal} onClose={() => { setShowModal(false); resetForm(); }}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Editar Estudiante' : 'Agregar Estudiante'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Edit Student' : 'Add Student'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormInput
                 type="text"
-                label="ID Tutor"
+                label="Tutor ID"
                 value={formData.id_tutor}
                 onChange={(e) => setFormData({ ...formData, id_tutor: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="ID Sección"
+                label="Section ID"
                 value={formData.id_section}
                 onChange={(e) => setFormData({ ...formData, id_section: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="ID Año Escolar"
+                label="School Year ID"
                 value={formData.id_school_year}
                 onChange={(e) => setFormData({ ...formData, id_school_year: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="Nombre"
+                label="First Name"
                 value={formData.first_name_student}
                 onChange={(e) => setFormData({ ...formData, first_name_student: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="Apellido"
+                label="Last Name"
                 value={formData.last_name_student}
                 onChange={(e) => setFormData({ ...formData, last_name_student: e.target.value })}
                 required
               />
               <CFormInput
                 type="date"
-                label="Fecha de Nacimiento"
+                label="Date of Birth"
                 value={formData.date_of_birth_student}
                 onChange={(e) => setFormData({ ...formData, date_of_birth_student: e.target.value })}
                 required
               />
               <CFormTextarea
-                label="Historial Médico"
+                label="Health Record"
                 value={formData.health_record}
                 onChange={(e) => setFormData({ ...formData, health_record: e.target.value })}
                 rows="3"
               />
               <CFormSelect
-                label="Género"
+                label="Gender"
                 value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                 required
               >
-                <option value="">Seleccionar Género</option>
-                <option value="M">Masculino</option>
-                <option value="F">Femenino</option>
+                <option value="">Select Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
               </CFormSelect>
               <CFormInput
                 type="text"
-                label="Calle"
+                label="Street"
                 value={formData.street}
                 onChange={(e) => setFormData({ ...formData, street: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="Ciudad"
+                label="City"
                 value={formData.city}
                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="Código Postal"
+                label="Zip Code"
                 value={formData.zip_code}
                 onChange={(e) => setFormData({ ...formData, zip_code: e.target.value })}
                 required
@@ -332,10 +332,10 @@ const Students = () => {
           </CModalBody>
           <CModalFooter>
             <CButton color="success" onClick={saveStudent}>
-              Guardar
+              Save
             </CButton>
             <CButton color="secondary" onClick={() => { setShowModal(false); resetForm(); }}>
-              Cancelar
+              Cancel
             </CButton>
           </CModalFooter>
         </CModal>

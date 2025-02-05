@@ -54,11 +54,11 @@ const GradeReports = () => {
         setNewsletters(data);
       } else {
         console.error('Received data is not an array:', data);
-        alert('Error: Datos recibidos no son válidos.');
+        alert('Error: Received data is not valid.');
       }
     } catch (error) {
       console.error('Error fetching newsletters:', error);
-      alert('Ocurrió un error al obtener los reportes de calificaciones. Por favor, inténtelo de nuevo.');
+      alert('An error occurred while fetching grade reports. Please try again.');
     }
   };
 
@@ -70,11 +70,11 @@ const GradeReports = () => {
         setUsers(data);
       } else {
         console.error('Received data is not an array:', data);
-        alert('Error: Datos recibidos no son válidos.');
+        alert('Error: Received data is not valid.');
       }
     } catch (error) {
       console.error('Error fetching users:', error);
-      alert('Ocurrió un error al obtener los usuarios. Por favor, inténtelo de nuevo.');
+      alert('An error occurred while fetching users. Please try again.');
     }
   };
 
@@ -103,7 +103,7 @@ const GradeReports = () => {
       resetForm();
     } catch (error) {
       console.error('Error saving newsletter:', error);
-      alert('Ocurrió un error al guardar el reporte de calificaciones. Por favor, inténtelo de nuevo.');
+      alert('An error occurred while saving the grade report. Please try again.');
     }
   };
 
@@ -132,7 +132,7 @@ const GradeReports = () => {
       fetchNewsletters();
     } catch (error) {
       console.error('Error deleting newsletter:', error);
-      alert('Ocurrió un error al eliminar el reporte de calificaciones. Por favor, inténtelo de nuevo.');
+      alert('An error occurred while deleting the grade report. Please try again.');
     }
   };
 
@@ -167,42 +167,42 @@ const GradeReports = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h5>Reportes de Calificaciones</h5>
+        <h5>Grade Reports</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Agregar Reporte
+          Add Report
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filtrar por título"
+            placeholder="Filter by title"
             name="title"
             value={filter.title}
             onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormSelect
-            placeholder="Filtrar por estado"
+            placeholder="Filter by status"
             name="newsletter_status"
             value={filter.newsletter_status}
             onChange={handleFilterChange}
           >
-            <option value="">Todos los estados</option>
-            <option value="active">Activo</option>
-            <option value="inactive">Inactivo</option>
+            <option value="">All statuses</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
           </CFormSelect>
         </div>
         <CTable bordered hover responsive>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell>ID Reporte</CTableHeaderCell>
-              <CTableHeaderCell>ID Usuario</CTableHeaderCell>
-              <CTableHeaderCell>Título</CTableHeaderCell>
-              <CTableHeaderCell>Contenido</CTableHeaderCell>
-              <CTableHeaderCell>Fecha de Envío</CTableHeaderCell>
-              <CTableHeaderCell>Estado</CTableHeaderCell>
-              <CTableHeaderCell>Destinatarios</CTableHeaderCell>
-              <CTableHeaderCell>Acciones</CTableHeaderCell>
+              <CTableHeaderCell>Report ID</CTableHeaderCell>
+              <CTableHeaderCell>User ID</CTableHeaderCell>
+              <CTableHeaderCell>Title</CTableHeaderCell>
+              <CTableHeaderCell>Content</CTableHeaderCell>
+              <CTableHeaderCell>Date Sent</CTableHeaderCell>
+              <CTableHeaderCell>Status</CTableHeaderCell>
+              <CTableHeaderCell>Recipients</CTableHeaderCell>
+              <CTableHeaderCell>Actions</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -221,14 +221,14 @@ const GradeReports = () => {
                     size="sm"
                     onClick={() => handleEditNewsletter(newsletter)}
                   >
-                    Editar
+                    Edit
                   </CButton>{' '}
                   <CButton
                     color="danger"
                     size="sm"
                     onClick={() => handleDeleteNewsletter(newsletter.id_newsletters)}
                   >
-                    Eliminar
+                    Delete
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
@@ -238,17 +238,17 @@ const GradeReports = () => {
 
         <CModal visible={showModal} onClose={handleCloseModal}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Editar Reporte' : 'Agregar Reporte'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Edit Report' : 'Add Report'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormSelect
-                label="ID Usuario"
+                label="User ID"
                 value={formData.uid_users}
                 onChange={(e) => setFormData({ ...formData, uid_users: e.target.value })}
                 required
               >
-                <option value="">Seleccionar Usuario</option>
+                <option value="">Select User</option>
                 {getAvailableUsers().map((user) => (
                   <option key={user.uid_users} value={user.uid_users}>
                     {user.first_name} {user.last_name} ({user.uid_users})
@@ -257,13 +257,13 @@ const GradeReports = () => {
               </CFormSelect>
               <CFormInput
                 type="text"
-                label="Título"
+                label="Title"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 required
               />
               <CFormTextarea
-                label="Contenido"
+                label="Content"
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 rows="3"
@@ -273,10 +273,10 @@ const GradeReports = () => {
           </CModalBody>
           <CModalFooter>
             <CButton color="success" onClick={handleSaveNewsletter}>
-              Guardar
+              Save
             </CButton>
             <CButton color="secondary" onClick={handleCloseModal}>
-              Cancelar
+              Cancel
             </CButton>
           </CModalFooter>
         </CModal>
