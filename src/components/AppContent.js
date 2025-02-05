@@ -1,12 +1,11 @@
-import React, { Suspense } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { CContainer, CSpinner } from '@coreui/react';
-import Profile from './profile/profile';
+import React, { Suspense } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { CContainer, CSpinner } from '@coreui/react'
 
+// routes config
+import routes from '../routes'
 
-import routes from '../routes';
-
-const AppContent = ({ currentUser }) => {
+const AppContent = () => {
   return (
     <CContainer className="px-4" lg>
       <Suspense fallback={<CSpinner color="primary" />}>
@@ -16,19 +15,19 @@ const AppContent = ({ currentUser }) => {
               route.element && (
                 <Route
                   key={idx}
-                  path="/profile"
+                  path={route.path}
                   exact={route.exact}
                   name={route.name}
-                  element={<Profile currentUser={currentUser} />}
+                  element={<route.element />}
                 />
               )
-            );
+            )
           })}
           <Route path="/" element={<Navigate to="dashboard" replace />} />
         </Routes>
       </Suspense>
     </CContainer>
-  );
-};
+  )
+}
 
-export default React.memo(AppContent);
+export default React.memo(AppContent)
