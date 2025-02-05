@@ -16,7 +16,7 @@ const LoginForm = React.lazy(() => import('./components/login/loginForm'));
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme');
-  const [isAuthenticated, setIsAuthenticated] = useState(true); 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -24,20 +24,21 @@ const App = () => {
     if (token) {
       setIsAuthenticated(true);
     } else {
-      setIsAuthenticated(true);
+      setIsAuthenticated(false);
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    setIsAuthenticated(true); 
-    setCurrentUser(null);  
+    setIsAuthenticated(false);
+    setCurrentUser(null);
   };
 
   const handleLoginSuccess = (user) => {
     setCurrentUser(user);
     setIsAuthenticated(true);
   };
+
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.href.split('?')[1]);
@@ -61,13 +62,18 @@ const App = () => {
         }
       >
         <Routes>
-          <Route
-            path="*"
-            element={<DefaultLayout currentUser={currentUser} onLogout={handleLogout} />}
-          />
-          <Route path="/404" name="Page 404" element={<Page404 />} />
-          <Route path="/500" name="Page 500" element={<Page500 />} />
-          <Route path="/login" element={<LoginForm onLoginSuccess={handleLoginSuccess} />} />
+          {!isAuthenticated ? (
+            <Route
+              path="/login"
+              element={<LoginForm onLoginSuccess={handleLoginSuccess} />}
+            />
+          ) : (
+            <Route
+              path="/*"
+              element={<DefaultLayout currentUser={currentUser} onLogout={handleLogout} />}
+            />
+          )}
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </Suspense>
     </HashRouter>
