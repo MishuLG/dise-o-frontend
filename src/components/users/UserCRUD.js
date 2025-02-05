@@ -156,9 +156,9 @@ const Users = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h5>Usuarios</h5>
+        <h5>Users</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Agregar Usuario
+          Add User
         </CButton>
       </CCardHeader>
       <CCardBody>
@@ -216,7 +216,7 @@ const Users = () => {
                     size="sm"
                     onClick={() => handleEditUser(user)}
                   >
-                    Editar
+                    Edit
                   </CButton>{' '}
                   <CButton
                     color="danger"

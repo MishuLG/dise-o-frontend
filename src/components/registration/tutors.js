@@ -146,15 +146,15 @@ const Tutors = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h5>Tutores</h5>
+        <h5>Tutors</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Agregar Tutor
+          Add Tutor
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filtrar por ID de Usuario"
+            placeholder="Filter by User ID"
             name="uid_users"
             value={filter.uid_users}
             onChange={handleFilterChange}
@@ -165,10 +165,10 @@ const Tutors = () => {
           <CTableHead>
             <CTableRow>
               <CTableHeaderCell>ID Tutor</CTableHeaderCell>
-              <CTableHeaderCell>ID Usuario</CTableHeaderCell>
-              <CTableHeaderCell>Creado En</CTableHeaderCell>
-              <CTableHeaderCell>Actualizado En</CTableHeaderCell>
-              <CTableHeaderCell>Acciones</CTableHeaderCell>
+              <CTableHeaderCell>ID User</CTableHeaderCell>
+              <CTableHeaderCell>Created at</CTableHeaderCell>
+              <CTableHeaderCell>Updated at</CTableHeaderCell>
+              <CTableHeaderCell>Actions</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -180,10 +180,10 @@ const Tutors = () => {
                 <CTableDataCell>{tutor.updated_at}</CTableDataCell>
                 <CTableDataCell>
                   <CButton color="warning" size="sm" onClick={() => editTutor(tutor)}>
-                    Editar
+                    Edit
                   </CButton>{' '}
                   <CButton color="danger" size="sm" onClick={() => deleteTutor(tutor.id_tutor)}>
-                    Eliminar
+                    Delete
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
@@ -193,17 +193,17 @@ const Tutors = () => {
 
         <CModal visible={showModal} onClose={closeModal}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Editar Tutor' : 'Agregar Tutor'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Edit Tutor' : 'Add Tutor'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormSelect
-                label="ID de Usuario"
+                label="User ID"
                 value={formData.uid_users}
                 onChange={(e) => setFormData({ ...formData, uid_users: e.target.value })}
                 required
               >
-                <option value="">Seleccionar Usuario</option>
+                <option value="">Select user</option>
                 {getAvailableUsers().map((user) => (
                   <option key={user.uid_users} value={user.uid_users}>
                     {user.first_name} {user.last_name} ({user.uid_users})
@@ -214,10 +214,10 @@ const Tutors = () => {
           </CModalBody>
           <CModalFooter>
             <CButton color="success" onClick={saveTutor}>
-              Guardar
+              Save
             </CButton>
             <CButton color="secondary" onClick={closeModal}>
-              Cancelar
+              Cancel
             </CButton>
           </CModalFooter>
         </CModal>
