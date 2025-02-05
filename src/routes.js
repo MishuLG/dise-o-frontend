@@ -78,7 +78,7 @@ const routes = [
   { path: '/subjects', name: 'subjects', element: Subjects },
   { path: '/sections', name: 'sections', element: Sections },
   { path: '/users', name: 'Users', element: UserCRUD },
-  { path: '/profile', name: 'Profile', element: Profile },
+  { path: '/profile', exact: true, name: 'Profile', element: Profile },
   { path: '/students', name: 'Students', element: Students },
   { path: '/tutors', name: 'Tutors', element: Tutors },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
