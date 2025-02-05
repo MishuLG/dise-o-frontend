@@ -37,7 +37,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Usuarios',
+    name: 'Users',
     to: '/users',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
@@ -48,18 +48,18 @@ const _nav = [
  
   {
     component: CNavGroup,
-    name: 'Registros',
+    name: 'Register',
     to: '/',
     icon: <CIcon icon={cilUserFollow} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Estudiantes',
+        name: 'Students',
         to: '/students',
       },
       {
         component: CNavItem,
-        name: 'Representantes',
+        name: 'Tutors',
         to: '/tutors',
       },
     ],
@@ -67,63 +67,63 @@ const _nav = [
 
   {
     component: CNavGroup,
-    name: 'Academico',
+    name: 'Academic',
     to: '/buttons',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Secciones',
+        name: 'Sections',
         to: '/sections',
       },
       {
         component: CNavItem,
-        name: 'Materias',
+        name: 'Subjects',
         to: '/subjects',
       },
       {
         component: CNavItem,
-        name: 'Materias Cursadas',
+        name: 'Subjects Taken',
         to: '/subjects_taken',
       },
       {
         component: CNavItem,
-        name: 'Año Escolar',
+        name: 'School Year',
         to: '/school_year',
       },
       {
         component: CNavItem,
-        name: 'Horario de Clases',
+        name: 'Class Schedules',
         to: '/class_schedules',
       },
     ],
   },
   {
     component: CNavItem,
-    name: 'Asistencia',
+    name: 'Attendance',
     to: '/attendance',
     icon: <CIcon icon={cilMoodVeryGood} customClassName="nav-icon" />
   },
   {
     component: CNavGroup,
-    name: 'Calificaciones',
+    name: 'Ratings',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Evaluaciones',
+        name: 'Evaluations',
         to: '/evaluations',
       },
     ],
   },
   {
     component: CNavGroup,
-    name: 'Boletines',
+    name: 'Newsletters',
     icon: <CIcon icon={cilFile} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Informes de Calificaciones',
+        name: 'Grade Reports',
         to: '/grade_reports',
       },
     ],

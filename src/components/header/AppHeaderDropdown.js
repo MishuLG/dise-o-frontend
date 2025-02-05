@@ -34,10 +34,10 @@ const AppHeaderDropdown = ({ onLogout }) => {
         <CAvatar src={avatar10} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="header-profile" placement="bottom-end">
-        <CDropdownHeader className="bg-body-danger fw-bold my-2">Configuracion</CDropdownHeader>
+        <CDropdownHeader className="bg-body-danger fw-bold my-2">Settings</CDropdownHeader>
         <CDropdownItem as={NavLink} to="/profile" className={`dropdown-item ${location.pathname === '/profile' ? 'active' : ''}`}>
           <CIcon icon={cilUser} className="me-2" />
-          Perfil
+          Profile
         </CDropdownItem>
         {/* <CDropdownItem as={NavLink} to="/settings">
           <CIcon icon={cilSettings} className="me-2" />
