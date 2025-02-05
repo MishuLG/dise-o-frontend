@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { CContainer, CSpinner } from '@coreui/react';
+import Profile from './profile/profile';
 
 
 import routes from '../routes';
@@ -18,7 +19,7 @@ const AppContent = ({ currentUser }) => {
                   path="/profile"
                   exact={route.exact}
                   name={route.name}
-                  element={React.cloneElement(route.element, { currentUser })}
+                  element={<Profile currentUser={currentUser} />}
                 />
               )
             );
