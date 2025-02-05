@@ -54,11 +54,11 @@ const Evaluations = () => {
         setEvaluations(data);
       } else {
         console.error('Received data is not an array:', data);
-        alert('Error: Datos recibidos no son válidos.');
+        alert('Error: Received data is not valid.');
       }
     } catch (error) {
       console.error('Error fetching evaluations:', error);
-      alert('Ocurrió un error al obtener las evaluaciones. Por favor, inténtelo de nuevo.');
+      alert('An error occurred while fetching evaluations. Please try again.');
     }
   };
 
@@ -82,7 +82,7 @@ const Evaluations = () => {
       resetForm();
     } catch (error) {
       console.error('Error saving evaluation:', error);
-      alert('Ocurrió un error al guardar la evaluación. Por favor, inténtelo de nuevo.');
+      alert('An error occurred while saving the evaluation. Please try again.');
     }
   };
 
@@ -114,7 +114,7 @@ const Evaluations = () => {
       fetchEvaluations();
     } catch (error) {
       console.error('Error deleting evaluation:', error);
-      alert('Ocurrió un error al eliminar la evaluación. Por favor, inténtelo de nuevo.');
+      alert('An error occurred while deleting the evaluation. Please try again.');
     }
   };
 
@@ -152,22 +152,22 @@ const Evaluations = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h5>Evaluaciones</h5>
+        <h5>Evaluations</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Agregar Evaluación
+          Add Evaluation
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filtrar por ID de estudiante"
+            placeholder="Filter by student ID"
             name="id_student"
             value={filter.id_student}
             onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormInput
-            placeholder="Filtrar por ID de asignatura"
+            placeholder="Filter by subject ID"
             name="id_subject"
             value={filter.id_subject}
             onChange={handleFilterChange}
@@ -176,19 +176,19 @@ const Evaluations = () => {
         <CTable bordered hover responsive>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell>ID Evaluación</CTableHeaderCell>
-              <CTableHeaderCell>ID Estudiante</CTableHeaderCell>
-              <CTableHeaderCell>ID Asignatura</CTableHeaderCell>
-              <CTableHeaderCell>ID Horario de Clase</CTableHeaderCell>
-              <CTableHeaderCell>Calificación Total</CTableHeaderCell>
-              <CTableHeaderCell>Fecha</CTableHeaderCell>
-              <CTableHeaderCell>Puntaje</CTableHeaderCell>
-              <CTableHeaderCell>Puntaje Máximo</CTableHeaderCell>
-              <CTableHeaderCell>Observaciones</CTableHeaderCell>
-              <CTableHeaderCell>Tipo</CTableHeaderCell>
-              <CTableHeaderCell>Creado En</CTableHeaderCell>
-              <CTableHeaderCell>Actualizado En</CTableHeaderCell>
-              <CTableHeaderCell>Acciones</CTableHeaderCell>
+              <CTableHeaderCell>Evaluation ID</CTableHeaderCell>
+              <CTableHeaderCell>Student ID</CTableHeaderCell>
+              <CTableHeaderCell>Subject ID</CTableHeaderCell>
+              <CTableHeaderCell>Class Schedule ID</CTableHeaderCell>
+              <CTableHeaderCell>Total Rating</CTableHeaderCell>
+              <CTableHeaderCell>Date</CTableHeaderCell>
+              <CTableHeaderCell>Score</CTableHeaderCell>
+              <CTableHeaderCell>Max Score</CTableHeaderCell>
+              <CTableHeaderCell>Remarks</CTableHeaderCell>
+              <CTableHeaderCell>Type</CTableHeaderCell>
+              <CTableHeaderCell>Created At</CTableHeaderCell>
+              <CTableHeaderCell>Updated At</CTableHeaderCell>
+              <CTableHeaderCell>Actions</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -212,99 +212,98 @@ const Evaluations = () => {
                     size="sm"
                     onClick={() => handleEditEvaluation(evaluation)}
                   >
-                    Editar
+                    Edit
                   </CButton>{' '}
                   <CButton
                     color="danger"
                     size="sm"
                     onClick={() => handleDeleteEvaluation(evaluation.id_evaluations)}
                   >
-                    Eliminar
+                    Delete
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
             ))}
           </CTableBody>
         </CTable>
-
         <CModal visible={showModal} onClose={handleCloseModal}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Editar Evaluación' : 'Agregar Evaluación'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Edit Evaluation' : 'Add Evaluation'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormInput
                 type="text"
-                label="ID Estudiante"
+                label="Student ID"
                 value={formData.id_student}
                 onChange={(e) => setFormData({ ...formData, id_student: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="ID Asignatura"
+                label="Subject ID"
                 value={formData.id_subject}
                 onChange={(e) => setFormData({ ...formData, id_subject: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="ID Horario de Clase"
+                label="Class Schedule ID"
                 value={formData.id_class_schedules}
                 onChange={(e) => setFormData({ ...formData, id_class_schedules: e.target.value })}
                 required
               />
               <CFormInput
                 type="number"
-                label="Calificación Total"
+                label="Total Rating"
                 value={formData.total_rating}
                 onChange={(e) => setFormData({ ...formData, total_rating: e.target.value })}
               />
               <CFormInput
                 type="date"
-                label="Fecha de Evaluación"
+                label="Evaluation Date"
                 value={formData.date_evaluation}
                 onChange={(e) => setFormData({ ...formData, date_evaluation: e.target.value })}
                 required
               />
               <CFormInput
                 type="number"
-                label="Puntaje"
+                label="Score"
                 value={formData.score}
                 onChange={(e) => setFormData({ ...formData, score: e.target.value })}
                 required
               />
               <CFormInput
                 type="number"
-                label="Puntaje Máximo"
+                label="Max Score"
                 value={formData.max_score}
                 onChange={(e) => setFormData({ ...formData, max_score: e.target.value })}
                 required
               />
               <CFormTextarea
-                label="Observaciones"
+                label="Remarks"
                 value={formData.remarks}
                 onChange={(e) => setFormData({ ...formData, remarks: e.target.value })}
                 rows="3"
               />
               <CFormSelect
-                label="Tipo de Evaluación"
+                label="Evaluation Type"
                 value={formData.evaluation_type}
                 onChange={(e) => setFormData({ ...formData, evaluation_type: e.target.value })}
                 required
               >
-                <option value="">Seleccionar Tipo de Evaluación</option>
-                <option value="summative">Examen</option>
-                <option value="formative">Prueba</option>
+                <option value="">Select Evaluation Type</option>
+                <option value="summative">Exam</option>
+                <option value="formative">Test</option>
               </CFormSelect>
             </CForm>
           </CModalBody>
           <CModalFooter>
             <CButton color="success" onClick={handleSaveEvaluation}>
-              Guardar
+              Save
             </CButton>
             <CButton color="secondary" onClick={handleCloseModal}>
-              Cancelar
+              Cancel
             </CButton>
           </CModalFooter>
         </CModal>
