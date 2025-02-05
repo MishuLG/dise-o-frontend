@@ -51,17 +51,17 @@ const SchoolYear = () => {
         setSchoolYears(data);
       } else {
         console.error('Received data is not an array:', data);
-        alert('Error: Datos recibidos no son válidos.');
+        alert('Error: Received data is not valid.');
       }
     } catch (error) {
       console.error('Error fetching school years:', error);
-      alert('Ocurrió un error al obtener los años escolares. Por favor, inténtelo de nuevo.');
+      alert('An error occurred while fetching school years. Please try again.');
     }
   };
 
   const handleSaveSchoolYear = async () => {
     if (!formData.start_year || !formData.end_of_year || !formData.scheduled_vacation || !formData.special_events) {
-      alert("Por favor, completa todos los campos de fecha.");
+      alert("Please complete all date fields.");
       return;
     }
 
@@ -92,7 +92,7 @@ const SchoolYear = () => {
       resetForm();
     } catch (error) {
       console.error('Error saving school year:', error);
-      alert('Ocurrió un error al guardar el año escolar. Por favor, inténtelo de nuevo.');
+      alert('An error occurred while saving the school year. Please try again.');
     }
   };
 
@@ -122,7 +122,7 @@ const SchoolYear = () => {
       fetchSchoolYears();
     } catch (error) {
       console.error('Error deleting school year:', error);
-      alert('Ocurrió un error al eliminar el año escolar. Por favor, inténtelo de nuevo.');
+      alert('An error occurred while deleting the school year. Please try again.');
     }
   };
 
@@ -158,22 +158,22 @@ const SchoolYear = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h5>Años Escolares</h5>
+        <h5>School Years</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Agregar Año Escolar
+          Add School Year
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filtrar por grado escolar"
+            placeholder="Filter by grade"
             name="school_grade"
             value={filter.school_grade}
             onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormInput
-            placeholder="Filtrar por estado"
+            placeholder="Filter by status"
             name="school_year_status"
             value={filter.school_year_status}
             onChange={handleFilterChange}
@@ -182,15 +182,15 @@ const SchoolYear = () => {
         <CTable bordered hover responsive>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell>ID Año Escolar</CTableHeaderCell>
-              <CTableHeaderCell>Grado Escolar</CTableHeaderCell>
-              <CTableHeaderCell>Año de Inicio</CTableHeaderCell>
-              <CTableHeaderCell>Año de Fin</CTableHeaderCell>
-              <CTableHeaderCell>Días Escolares</CTableHeaderCell>
-              <CTableHeaderCell>Vacaciones Programadas</CTableHeaderCell>
-              <CTableHeaderCell>Eventos Especiales</CTableHeaderCell>
-              <CTableHeaderCell>Estado</CTableHeaderCell>
-              <CTableHeaderCell>Acciones</CTableHeaderCell>
+              <CTableHeaderCell>School Year ID</CTableHeaderCell>
+              <CTableHeaderCell>Grade</CTableHeaderCell>
+              <CTableHeaderCell>Start Year</CTableHeaderCell>
+              <CTableHeaderCell>End Year</CTableHeaderCell>
+              <CTableHeaderCell>School Days</CTableHeaderCell>
+              <CTableHeaderCell>Scheduled Vacations</CTableHeaderCell>
+              <CTableHeaderCell>Special Events</CTableHeaderCell>
+              <CTableHeaderCell>Status</CTableHeaderCell>
+              <CTableHeaderCell>Actions</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -206,40 +206,39 @@ const SchoolYear = () => {
                 <CTableDataCell>{schoolYear.school_year_status}</CTableDataCell>
                 <CTableDataCell>
                   <CButton color="warning" size="sm" onClick={() => handleEditSchoolYear(schoolYear)}>
-                    Editar
+                    Edit
                   </CButton>{' '}
                   <CButton color="danger" size="sm" onClick={() => handleDeleteSchoolYear(schoolYear.id_school_year)}>
-                    Eliminar
+                    Delete
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
             ))}
           </CTableBody>
-        </CTable>
-
+        </CTable> 
         <CModal visible={showModal} onClose={handleCloseModal}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Editar Año Escolar' : 'Agregar Año Escolar'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Edit School Year' : 'Add School Year'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
-              <CFormInput type="text" label="Grado Escolar" value={formData.school_grade} onChange={(e) => setFormData({ ...formData, school_grade: e.target.value })} required />
-              <CFormInput type="date" label="Año de Inicio" value={formData.start_year} onChange={(e) => setFormData({ ...formData, start_year: e.target.value })} required />
-              <CFormInput type="date" label="Año de Fin" value={formData.end_of_year} onChange={(e) => setFormData({ ...formData, end_of_year: e.target.value })} required />
-              <CFormInput type="number" label="Días Escolares" value={formData.number_of_school_days} onChange={(e) => setFormData({ ...formData, number_of_school_days: e.target.value })} required />
-              <CFormSelect label="Estado" value={formData.school_year_status} onChange={(e) => setFormData({ ...formData, school_year_status: e.target.value })} required>
-                <option value="">Seleccionar Estado</option>
-                <option value="active">Activo</option>
-                <option value="inactive">Inactivo</option>
+              <CFormInput type="text" label="Grade" value={formData.school_grade} onChange={(e) => setFormData({ ...formData, school_grade: e.target.value })} required />
+              <CFormInput type="date" label="Start Year" value={formData.start_year} onChange={(e) => setFormData({ ...formData, start_year: e.target.value })} required />
+              <CFormInput type="date" label="End Year" value={formData.end_of_year} onChange={(e) => setFormData({ ...formData, end_of_year: e.target.value })} required />
+              <CFormInput type="number" label="School Days" value={formData.number_of_school_days} onChange={(e) => setFormData({ ...formData, number_of_school_days: e.target.value })} required />
+              <CFormSelect label="Status" value={formData.school_year_status} onChange={(e) => setFormData({ ...formData, school_year_status: e.target.value })} required>
+                <option value="">Select Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
               </CFormSelect>
             </CForm>
           </CModalBody>
           <CModalFooter>
             <CButton color="success" onClick={handleSaveSchoolYear}>
-              Guardar
+              Save
             </CButton>
             <CButton color="secondary" onClick={handleCloseModal}>
-              Cancelar
+              Cancel
             </CButton>
           </CModalFooter>
         </CModal>

@@ -43,13 +43,13 @@ const SubjectsTaken = () => {
     try {
       const response = await fetch(subjectsTakenUrl);
       if (!response.ok) {
-        throw new Error('Error de respuesta de la red');
+        throw new Error('Red response error');
       }
       const data = await response.json();
       setSubjectsTaken(data);
     } catch (error) {
-      console.error('Error al obtener las asignaturas tomadas:', error);
-      alert('Ocurrió un error al obtener las asignaturas tomadas. Por favor, inténtelo de nuevo.');
+      console.error('Error getting the subjects taken:', error);
+      alert('An error occurred while obtaining the subjects taken. Please try again.');
     }
   };
 
@@ -67,15 +67,15 @@ const SubjectsTaken = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error de respuesta de la red');
+        throw new Error('Network response error');
       }
 
       fetchSubjectsTaken();
       setShowModal(false);
       resetForm();
     } catch (error) {
-      console.error('Error al guardar la asignatura tomada:', error);
-      alert('Ocurrió un error al guardar la asignatura tomada. Por favor, inténtelo de nuevo.');
+      console.error('Error when saving the subject taken:', error);
+      alert('An error occurred while saving the course taken. Please try again.');
     }
   };
 
@@ -98,13 +98,13 @@ const SubjectsTaken = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error de respuesta de la red');
+        throw new Error('Network response error');
       }
 
       fetchSubjectsTaken();
     } catch (error) {
-      console.error('Error al eliminar la asignatura tomada:', error);
-      alert('Ocurrió un error al eliminar la asignatura tomada. Por favor, inténtelo de nuevo.');
+      console.error('Error when deleting the taken subject:', error);
+      alert('An error occurred while deleting the taken subject. Please try again.');
     }
   };
 
@@ -137,22 +137,22 @@ const SubjectsTaken = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h5>Asignaturas Tomadas</h5>
+        <h5>Subjects Taken</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Agregar Asignatura Tomada
+        Add Subject Taken
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filtrar por ID de estudiante"
+            placeholder="Filter by student ID"
             name="id_student"
             value={filter.id_student}
             onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormInput
-            placeholder="Filtrar por ID de año escolar"
+            placeholder="Filter by school year ID"
             name="id_school_year"
             value={filter.id_school_year}
             onChange={handleFilterChange}
@@ -161,14 +161,14 @@ const SubjectsTaken = () => {
         <CTable bordered hover responsive>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell>ID Asignatura Tomada</CTableHeaderCell>
-              <CTableHeaderCell>ID Estudiante</CTableHeaderCell>
-              <CTableHeaderCell>ID Asignatura</CTableHeaderCell>
-              <CTableHeaderCell>ID Año Escolar</CTableHeaderCell>
-              <CTableHeaderCell>Calificación Final</CTableHeaderCell>
-              <CTableHeaderCell>Creado En</CTableHeaderCell>
-              <CTableHeaderCell>Actualizado En</CTableHeaderCell>
-              <CTableHeaderCell>Acciones</CTableHeaderCell>
+              <CTableHeaderCell>ID Subject Taken</CTableHeaderCell>
+              <CTableHeaderCell>ID Student</CTableHeaderCell>
+              <CTableHeaderCell>ID Subject</CTableHeaderCell>
+              <CTableHeaderCell>ID School year</CTableHeaderCell>
+              <CTableHeaderCell>Final Qualification</CTableHeaderCell>
+              <CTableHeaderCell>Created at</CTableHeaderCell>
+              <CTableHeaderCell>updated at</CTableHeaderCell>
+              <CTableHeaderCell>Actions</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -194,7 +194,7 @@ const SubjectsTaken = () => {
                     size="sm"
                     onClick={() => handleDeleteSubjectTaken(subjectTaken.id_subject_taken)}
                   >
-                    Eliminar
+                    Delete
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
@@ -204,34 +204,34 @@ const SubjectsTaken = () => {
 
         <CModal visible={showModal} onClose={handleCloseModal}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Editar Asignatura Tomada' : 'Agregar Asignatura Tomada'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Edit Subject Taken' : 'Add Subject Taken'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormInput
                 type="text"
-                label="ID Estudiante"
+                label="Student ID"
                 value={formData.id_student}
                 onChange={(e) => setFormData({ ...formData, id_student: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="ID Asignatura"
+                label="Subject ID"
                 value={formData.id_subject}
                 onChange={(e) => setFormData({ ...formData, id_subject: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="ID Año Escolar"
+                label="ID School Year"
                 value={formData.id_school_year}
                 onChange={(e) => setFormData({ ...formData, id_school_year: e.target.value })}
                 required
               />
               <CFormInput
                 type="number"
-                label="Calificación Final"
+                label="Final Qualification"
                 value={formData.final_grade}
                 onChange={(e) => setFormData({ ...formData, final_grade: e.target.value })}
                 required
@@ -240,10 +240,10 @@ const SubjectsTaken = () => {
           </CModalBody>
           <CModalFooter>
             <CButton color="success" onClick={handleSaveSubjectTaken}>
-              Guardar
+              Save
             </CButton>
             <CButton color="secondary" onClick={handleCloseModal}>
-              Cancelar
+              Cancel
             </CButton>
           </CModalFooter>
         </CModal>

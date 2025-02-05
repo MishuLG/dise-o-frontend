@@ -18,7 +18,7 @@ import {
   CForm,
   CFormInput,
 } from '@coreui/react';
-import API_URL from '../../../config';  
+import API_URL from '../../../config';
 
 const Sections = () => {
   const [sections, setSections] = useState([]);
@@ -129,22 +129,22 @@ const Sections = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h5>Secciones</h5>
+        <h5>Sections</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Agregar Sección
+          Add Section
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filtrar por ID de horario de clase"
+            placeholder="Filter by Class Schedule ID"
             name="id_class_schedules"
             value={filter.id_class_schedules}
             onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormInput
-            placeholder="Filtrar por número de sección"
+            placeholder="Filter by Section Number"
             name="num_section"
             value={filter.num_section}
             onChange={handleFilterChange}
@@ -153,12 +153,12 @@ const Sections = () => {
         <CTable bordered hover responsive>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell>ID Sección</CTableHeaderCell>
-              <CTableHeaderCell>ID Horario de Clase</CTableHeaderCell>
-              <CTableHeaderCell>Número de Sección</CTableHeaderCell>
-              <CTableHeaderCell>Creado En</CTableHeaderCell>
-              <CTableHeaderCell>Actualizado En</CTableHeaderCell>
-              <CTableHeaderCell>Acciones</CTableHeaderCell>
+              <CTableHeaderCell>Section ID</CTableHeaderCell>
+              <CTableHeaderCell>Class Schedule ID</CTableHeaderCell>
+              <CTableHeaderCell>Section Number</CTableHeaderCell>
+              <CTableHeaderCell>Created At</CTableHeaderCell>
+              <CTableHeaderCell>Updated At</CTableHeaderCell>
+              <CTableHeaderCell>Actions</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -171,10 +171,10 @@ const Sections = () => {
                 <CTableDataCell>{section.updated_at}</CTableDataCell>
                 <CTableDataCell>
                   <CButton color="warning" size="sm" onClick={() => handleEditSection(section)}>
-                    Editar
+                    Edit
                   </CButton>{' '}
                   <CButton color="danger" size="sm" onClick={() => handleDeleteSection(section.id_section)}>
-                    Eliminar
+                    Delete
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
@@ -184,20 +184,20 @@ const Sections = () => {
 
         <CModal visible={showModal} onClose={handleCloseModal}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Editar Sección' : 'Agregar Sección'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Edit Section' : 'Add Section'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormInput
                 type="text"
-                label="ID Horario de Clase"
+                label="Class Schedule ID"
                 value={formData.id_class_schedules}
                 onChange={(e) => setFormData({ ...formData, id_class_schedules: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="Número de Sección"
+                label="Section Number"
                 value={formData.num_section}
                 onChange={(e) => setFormData({ ...formData, num_section: e.target.value })}
                 required
@@ -206,10 +206,10 @@ const Sections = () => {
           </CModalBody>
           <CModalFooter>
             <CButton color="success" onClick={handleSaveSection}>
-              Guardar
+              Save
             </CButton>
             <CButton color="secondary" onClick={handleCloseModal}>
-              Cancelar
+              Cancel
             </CButton>
           </CModalFooter>
         </CModal>

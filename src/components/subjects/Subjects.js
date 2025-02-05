@@ -136,22 +136,22 @@ const Subjects = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h5>Asignaturas</h5>
+        <h5>Subjects</h5>
         <CButton color="success" onClick={() => setShowModal(true)}>
-          Agregar Asignatura
+          Add Subject
         </CButton>
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
           <CFormInput
-            placeholder="Filtrar por nombre de asignatura"
+            placeholder="Filter by subject name"
             name="name_subject"
             value={filter.name_subject}
             onChange={handleFilterChange}
             className="mb-2"
           />
           <CFormInput
-            placeholder="Filtrar por ID de año escolar"
+            placeholder="Filter by school year ID"
             name="id_school_year"
             value={filter.id_school_year}
             onChange={handleFilterChange}
@@ -160,14 +160,14 @@ const Subjects = () => {
         <CTable bordered hover responsive>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell>ID Asignatura</CTableHeaderCell>
-              <CTableHeaderCell>ID Horario de Clase</CTableHeaderCell>
-              <CTableHeaderCell>ID Año Escolar</CTableHeaderCell>
-              <CTableHeaderCell>Nombre de Asignatura</CTableHeaderCell>
-              <CTableHeaderCell>Descripción</CTableHeaderCell>
-              <CTableHeaderCell>Creado En</CTableHeaderCell>
-              <CTableHeaderCell>Actualizado En</CTableHeaderCell>
-              <CTableHeaderCell>Acciones</CTableHeaderCell>
+              <CTableHeaderCell>Subject ID</CTableHeaderCell>
+              <CTableHeaderCell>Class Schedule ID</CTableHeaderCell>
+              <CTableHeaderCell>School Year ID</CTableHeaderCell>
+              <CTableHeaderCell>Subject Name</CTableHeaderCell>
+              <CTableHeaderCell>Description</CTableHeaderCell>
+              <CTableHeaderCell>Created At</CTableHeaderCell>
+              <CTableHeaderCell>Updated At</CTableHeaderCell>
+              <CTableHeaderCell>Actions</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -182,10 +182,10 @@ const Subjects = () => {
                 <CTableDataCell>{subject.updated_at}</CTableDataCell>
                 <CTableDataCell>
                   <CButton color="warning" size="sm" onClick={() => handleEditSubject(subject)}>
-                    Editar
+                    Edit
                   </CButton>{' '}
                   <CButton color="danger" size="sm" onClick={() => handleDeleteSubject(subject.id_subject)}>
-                    Eliminar
+                    Delete
                   </CButton>
                 </CTableDataCell>
               </CTableRow>
@@ -195,33 +195,33 @@ const Subjects = () => {
 
         <CModal visible={showModal} onClose={handleCloseModal}>
           <CModalHeader>
-            <CModalTitle>{editMode ? 'Editar Asignatura' : 'Agregar Asignatura'}</CModalTitle>
+            <CModalTitle>{editMode ? 'Edit Subject' : 'Add Subject'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm>
               <CFormInput
                 type="text"
-                label="ID Horario de Clase"
+                label="Class Schedule ID"
                 value={formData.id_class_schedules}
                 onChange={(e) => setFormData({ ...formData, id_class_schedules: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="ID Año Escolar"
+                label="School Year ID"
                 value={formData.id_school_year}
                 onChange={(e) => setFormData({ ...formData, id_school_year: e.target.value })}
                 required
               />
               <CFormInput
                 type="text"
-                label="Nombre de Asignatura"
+                label="Subject Name"
                 value={formData.name_subject}
                 onChange={(e) => setFormData({ ...formData, name_subject: e.target.value })}
                 required
               />
               <CFormTextarea
-                label="Descripción"
+                label="Description"
                 value={formData.description_subject}
                 onChange={(e) => setFormData({ ...formData, description_subject: e.target.value })}
                 rows="3"
@@ -230,10 +230,10 @@ const Subjects = () => {
           </CModalBody>
           <CModalFooter>
             <CButton color="success" onClick={handleSaveSubject}>
-              Guardar
+              Save
             </CButton>
             <CButton color="secondary" onClick={handleCloseModal}>
-              Cancelar
+              Cancel
             </CButton>
           </CModalFooter>
         </CModal>
